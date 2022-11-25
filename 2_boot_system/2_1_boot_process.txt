@@ -1,0 +1,22 @@
+Linux boot process.
+
+1. Firmware stage.
+   - Executes code in the BIOS (for legacy systems up to 2005), or UEFI (for newer systems).
+   - Starts the bootloader stage.
+
+2. Bootloader stage.
+   - Executes bootloader code on drive, like GRUB2.
+   - Reads its configuration file (e.g. /boot/grub2/grub.cfg).
+   - Starts the kernel stage.
+
+3. Kernel stage.
+   - Loads a RAMDisk into the main memory.
+   - Kernel loads device drivers and configuration files from the RAMDisk.
+   - Kernel unmounts RAMDisk and mounts the root filesystem.
+   - Starts the initialization stage.
+
+4. Initialization stage.
+   - Executes SysV init (for legacy systems), or systemd (for newer systems).
+   - Starts system services (e.g. dhcp).
+   - Starts login shells and GUI interfaces.
+

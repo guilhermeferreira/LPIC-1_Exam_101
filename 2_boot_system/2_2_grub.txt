@@ -1,0 +1,22 @@
+Legacy Linux bootloaders:
+- ISOLINUX.
+- LILO.
+- GRUB (legacy).
+
+GRUB2 is a rewrite of GRUB.
+
+The first time we install GRUB2, we run
+  $ grub-install
+
+The final configuration file is /boot/grub2/grub.cfg. However, that file is
+automatically generated. Instead, we must change the input files:
+  $ sudo nano /etc/default/grub
+  $ sudo ls -l /etc/grub.d/
+
+Once the input files are generated, we generate the GRUB2 configuration file:
+  $ sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+
+Change the default boot kernel (<menu-entry> = 0 for the 1st kernel, 1 for the
+2nd, and so on):
+  $ grub2-set-default <menu-entry>
+

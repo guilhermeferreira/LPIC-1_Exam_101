@@ -1,0 +1,11 @@
+List installed kernels:
+  $ sudo dnf list installed kernel-*
+
+Check available kernels
+  $ sudo dnf list available kernel
+
+Update the kernel. It requires re-installing the Virtual Box Guest Additions
+for the new kernel.
+  $ sudo dnf update -y kernel
+  $ reboot
+
