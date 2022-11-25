@@ -1,0 +1,14 @@
+Video: Install and remove packages with YUM
+
+---------------------------------------
+
+RPM manages packages. rpm is the Package Management tool. Equivalent to dpkg
+in Debian/Ubuntu.
+  rpm (Red Hat) = dpkg (Debian)
+
+YUM manages package's repositories. yum is the Repository Management tool.
+Equivalent to apt in Debian/Ubuntu.
+  yum/dnf (Red Hat) = apt (Debian)
+
+---------------------------------------
+

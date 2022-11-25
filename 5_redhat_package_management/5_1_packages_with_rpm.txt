@@ -1,0 +1,82 @@
+Red-Hat Package Management (RPM)
+
+Videos:
+- RPM software management overview.
+- Query packages with RPM.
+
+---------------------------------------
+
+RPM manages the installation of individual packages using YUM as dependency and
+repository manager. It performs the same task as DPKG in Debian.
+- Installs packages.
+- Downloads packages from FTP, but not from repositories.
+
+YUM manages repositories. It performs the same task as APT in Debian.
+- YUM uses RPM to install packages on Red-Hat like distributions.
+- YUM resolves dependencies automatically.
+- YUM has the concept of software package groups, which are software installed together.
+- YUM repositories have RPM packages.
+
+---------------------------------------
+
+The package information can come from the database (use only -q), or directly
+from the file (use -qp, 'p' from package).
+
+Query all packages. The 'q' from query.
+  $ rpm -qa
+
+Query the database for package information.
+  $ rpm -qi <package name>
+
+Query the package file for package information.
+  $ rpm -qid <package file>.rpm
+
+Query local group informantion.
+  $ rpm -qa Group="System Environment/Shells"
+
+Query when packages were installed.
+  $ rpm -qa --last
+
+List files installed by a package.
+  $ rpm -ql <package name>
+
+List the configuration files used by a package.
+  $ rpm -qc <package name>
+
+Find the package that owns the file.
+  $ rpm -qf <file>
+
+List the documentation from a package.
+  $ rpm -qd <package name>
+
+List the documentation from a file.
+  $ rpm -qdf <file>
+
+List the package's dependencies.
+  $ rpm -q --requires <package name>
+
+Download and install a package.
+  $ sudo yum install -y <package name>
+
+Download a package without installing it (might require install the plugin
+first through the command "sudo yum install -y yum-plugin-downloadonly").
+  $ sudo yum install --downloadonly --downloaddir=/tmp <package name>
+
+Install a package downloaded.
+  $ sudo yum localinstall <package file>.rpm
+
+List the package's files that are going to be installed.
+  $ rmp -qlp <package file>.rpm
+
+List packages that need update.
+  $ yum list updates
+
+Upgrade a package.
+  $ sudo yum upgrade -y <package name>
+
+Remove a package and its dependencies. yum manages dependencies.
+  $ sudo yum autoremove <package name>
+
+Remove a package, but neither its dependencies not its configuration files.
+  $ sudo yum remove <package name>
+

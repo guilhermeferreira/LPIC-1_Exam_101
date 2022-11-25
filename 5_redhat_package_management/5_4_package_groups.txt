@@ -1,0 +1,45 @@
+YUM have the concept of package groups, while APT doesn't.
+
+---------------------------------------
+
+There are 4 different ways to refer to a Group.
+1. Using the group name. It has spaces and require double quotes.
+     $ yum group install "<group name>"
+     $ yum group install "Security Tools"
+2. Using the group ID. It's a command-line friendly name without spaces. We can manage
+   package groups by its name or ID.
+     $ yum group install <group id>
+     $ yum group install security-tools
+3. Using package tools with group name.
+     $ yum group install @"<group name>"
+     $ yum group install @"Security Tools"
+4. Using package tools with group ID.
+     $ yum group install @<group id>
+     $ yum group install @security-tools
+
+---------------------------------------
+
+List package groups.
+  $ yum group list
+
+List package groups IDs.
+  $ yum group list ids
+
+Install a group (only mandatory and default packages).
+  $ sudo yum group install <group name/id>
+
+Install a group (mandatory, default and optional packages).
+  $ sudo yum group install <group name/id> --setopt=group_package_types=mandatory,default,optional
+
+Remove a group, but not its dependencies.
+  $ sudo yum group remove <group name/id>
+
+Remove a group and its dependencies.
+  $ sudo yum autoremove @<group name/id>
+
+Update a group.
+  $ sudo yum group update <group name/id>
+
+Show group information.
+  $ you group info <group name/id>
+
