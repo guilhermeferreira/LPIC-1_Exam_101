@@ -1,0 +1,27 @@
+Cloud Computing = the automatic and dynamic scaling of computer resources (e.g.
+                  storage space, CPU cycles, database, networking).
+- IaaS = Infrastructure as a Service. Provides hardware.
+- PaaS = Platform as a Service. Provides operating system.
+- SaaS = Software as a Service. Provides application.
+
+Emulation = translates every instruction. Can emulate one type of CPU into another.
+            For example, run a ARM software on a x86 machine.
+            QEMU perform emulation.
+
+Virtualization = the creation of virtual versions of something, specifically
+                 computer hardware, storage devices, and network resources.
+                 Virtualization doesn't create a different machine, but allocates
+                 part of a real machine into a virtual environment.
+                 Xen, KVM, VirtualBox and VMWare perform virtualization.
+
+Paravirtualization = software virtualization that DOES NOT virtualize the
+                     entire computer.
+- DOES require the guest operating system to know it's being virtualized (i.e.
+  PV support in the guest kernel), but
+- DOES NOT require hardware virtualization support.
+
+Full Virtualization = hardware virtualization that DOES virtualize the entire
+                      computer.
+- DOES NOT require the guest operating system to know it's being virtualized, but
+- DOES require hardware virtualization support.
+

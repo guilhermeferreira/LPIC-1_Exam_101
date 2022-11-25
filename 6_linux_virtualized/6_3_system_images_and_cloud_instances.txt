@@ -1,0 +1,38 @@
+Installing a OS in one VM is simply
+1. Download the ISO image.
+2. Create the Virtual Machine (VM).
+3. Start the VM, booting from the ISO image.
+4. Install the Operating System (OS).
+
+However, it becomes time consuming if you have to perform the same steps for
+hundreds of machines. So, we can automate VM installation with...
+
+- Kickstart on Red Hat.
+    $ sudo cat /root/anaconda-ks.cfg
+  Append the file to the kernel command line
+    inst.ks=htpp://192.168.0.100/kicjstarts/centos7.bin 
+
+- Preseed on Debian.
+
+- AutoYaST on SUSE.
+
+---------------------------------------
+
+Libvirt to manage hypervisors.
+
+It's able to manage the following hypervisors.
+- Xen.
+- QEMU.
+- VirtualBox.
+- VMWare ESX.
+- VMWare Workstation.
+- Microsoft Hyper-V.
+- LXC.
+- OpenVZ.
+
+It provides the commands.
+- virsh a shell to manage virtualization.
+- virt-clone to clone VMs.
+- virt-install to create the initial OS installation.
+- virt-top to show the resource utilization of VMs.
+

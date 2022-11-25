@@ -1,0 +1,38 @@
+Hypervisor is a software/hardware that runs virtual machines.
+
+- Type-1 hypervisor runs directly on the hardware (e.g. bare metal).
+  It request physical resources directly from the hardware.
+  Examples are Xen, KVM.
+
+- Type-2 hypervisor runs on top of an operating system.
+  Examples are VirtualBox.
+
+                                                                          ┌────────────────────┐
+                                                                          │                    │
+                                                                          │     Application    │
+                                                                          │                    │
+              ┌────────────────────────────┐                          ┌───┴────────────────────┴───┐
+              │                            │                          │ ┌────────────────────────┐ │
+              │                            │                          │ │ Guest Operating System │ │
+              │        Application         │                          │ └────────────────────────┘ │
+              │                            │                          │      Virtual Machine       │
+              │                            │                          │                            │
+          ┌───┴────────────────────────────┴───┐                  ┌───┴────────────────────────────┴───┐
+          │     ┌────────────────────────┐     │                  │                                    │
+          │     │ Guest Operating System │     │                  │               Type-2               │
+          │     └────────────────────────┘     │                  │             Hypervisor             │
+          │          Virtual Machine           │                  │                                    │
+          │                                    │                  │                                    │
+      ┌───┴────────────────────────────────────┴───┐          ┌───┴────────────────────────────────────┴───┐
+      │                                            │          │                                            │
+      │                   Type-1                   │          │                                            │
+      │                 Hypervisor                 │          │           Host Operating System            │
+      │                                            │          │                                            │
+      │                                            │          │                                            │
+  ┌───┴────────────────────────────────────────────┴───┐  ┌───┴────────────────────────────────────────────┴───┐
+  │                                                    │  │                                                    │
+  │                 Physical Hardware                  │  │                 Physical Hardware                  │
+  │                                                    │  │                                                    │
+  └────────────────────────────────────────────────────┘  └────────────────────────────────────────────────────┘
+                    Type 1 Hypervisor                                       Type 2 Hypervisor
+

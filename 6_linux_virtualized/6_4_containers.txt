@@ -1,0 +1,8 @@
+A Virtual Machine (VM) virtualizes the hardware.
+- It provides a machine in software, where each VM has its own Operating System (OS).
+
+A Container virtualizes the OS.
+- It provides an OS, where all containers share the same OS.
+- Use the namespaces and control groups (cgroups).
+- Docker manages containers.
+
