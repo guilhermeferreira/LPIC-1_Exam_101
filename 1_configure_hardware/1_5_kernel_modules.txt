@@ -1,0 +1,26 @@
+$ ls -l /lib/modules/$(uname -r)/kernel
+
+List modules
+$ lsmod
+Module                  Size  Used by
+
+$ lsmod | grep video
+video                  49152  0
+
+Print module's information
+$ modinfo <module>
+
+Load a module manually
+$ sudo modprobe -v <module>
+
+Unload/Remove a module
+$ sudo modprobe -v -r <module>
+
+Load a module during boot
+$ sudo vi /etc/modules-load.d/<module>.conf
+<module>
+
+Unload a module during boot (i.e. black listing)
+$ sudo vi /etc/modprobe.d/<module>.conf
+blacklist <module>
+

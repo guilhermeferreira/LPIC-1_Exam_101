@@ -1,0 +1,38 @@
+Show hardware resrouces
+$ sudo lshw
+
+Show hardware classes
+$ sudo lshw -short
+
+Show a specific hardware class
+$ sudo lshw -class <class>
+
+Show CPU information
+$ sudo lscpu
+
+Show PCI information
+$ sudo lspci
+$ sudo lspci -vvv
+
+Show BIOS information
+$ sudo dmidecode
+
+Show memory
+$ free -m
+$ cat /proc/meminfo
+$ sudo dmidecode -t memory
+
+Show device information
+$ sudo lspci | grep -i ethernet
+00:03.0 Ethernet controller: Intel Corporation 82540EM Gigabit Ethernet Controller (rev 02)
+$ sudo lspci -v -s 00:03.0
+
+Show storage information
+$ lsblk
+
+Show storage partitions for mounted devices (e.g. <device> is /dev/sda)
+$ sudo gdisk -l <device>
+
+Show storage partiotions for unmounted devices
+$ sudo blkid
+

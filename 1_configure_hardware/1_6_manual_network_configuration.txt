@@ -1,0 +1,21 @@
+Configuration file for network interface
+  /etc/sysconfig/network-scripts/ifcfg-<interface>
+
+Example
+  $ cat /etc/sysconfig/network-scripts/ifcfg-enp0s3
+
+Network script options:
+  DEVICE=name
+  IPADDR=address
+  IPV6ADDR=address
+  HWADDR=mac-address
+  MACADDR=mac-address
+  BOOTPROTO=protocol(none,bootp,dhcp)
+  ONBOOT=(yes,no)
+  DNS{1,2}=address
+  PREFIX=mask in cidr bits (e.g. 24 for /24)
+  NETMASK=mask in dotted decimal (e.g. 255.255.255.0)
+
+Reload the configuration
+  $ sudo nmcli c reload
+

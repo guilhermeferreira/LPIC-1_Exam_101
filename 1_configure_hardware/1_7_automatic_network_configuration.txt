@@ -1,0 +1,38 @@
+Command-line configuration:
+  $ nmcli
+
+Graphical configuration:
+  $ nmtui
+
+Notify the Network Manager (nm) when manually changing files:
+  $ sudo nmcli c reload
+  $ sudo nmcli con reload
+
+Load a single configuration file
+  $ sudo nmcli c load /etc/sysconfig/network-scripts/ifcfg-<interface>
+  $ sudo nmcli con load /etc/sysconfig/network-scripts/ifcfg-enp0s3
+
+Turn the interface on
+  $ sudo nmcli d up <interface>
+  $ sudo nmcli dev connect <interface>
+  $ sudo nmcli d connect enp0s3
+
+Shut the interface down
+  $ sudo nmcli d down <interface>
+  $ sudo nmcli dev disconnect <interface>
+  $ sudo nmcli d disconnect enp0s3
+
+Show all connections
+  $ nmcli c show
+  $ nmcli con show
+
+Show active connections
+  $ nmcli c show --active
+  $ nmcli con show --active
+
+Show general information
+  $ nmcli general status
+
+Interactive connection editor
+  $ nmcli c edit
+

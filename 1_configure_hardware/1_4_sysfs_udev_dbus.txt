@@ -1,0 +1,23 @@
+Kernel Space
+- Privileged.
+- Full access to hardware.
+- Runs in ring 0 (hardware-enforced privilege execution mode).
+User Space
+- Unprivileged.
+- Cannot access hardware directly.
+- Runs in ring 3 (interact with hardware by making system calls to the kernel).
+
+Hardware plug-in process
+1. Device is attached
+2. Kernel populates information in /sys (the sysfs virtual filesystem).
+3. Kernel sends a device event to the 'udev' user-space tool.
+4. udev reads the rules in /etc/udev/rules.d/.
+5. udev creates device nodes in /dev (the virtual filesystem).
+6. udev notifies the 'dbus' user-space tool.
+
+Monitor udev messages
+$ sudo udevadm monitor
+
+Monitor D-Bus messages
+$ sudo dbus-monitor
+

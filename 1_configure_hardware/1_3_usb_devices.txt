@@ -1,0 +1,7 @@
+List USB devices
+$ lsusb
+$ usb-devices
+
+Show UBS plugin messages
+$ sudo dmesg
+
