@@ -1,0 +1,45 @@
+Video: Work with APT repositories
+
+---------------------------------------
+
+dpkg is the Package Management tool. Equivalent to rpm in Red Hat.
+  dpkg (Debian) = rpm (Red Hat)
+
+apt is the Repository Management tool. Equivalent to yum/dnf in Red Hat.
+  apt (Debian) = yum/dnf (Red Hat)
+
+---------------------------------------
+
+Repository Sections.
+- Main is sofware maintained by Ubuntu.
+- Universe is software maintained by the open-source community.
+- Restricted is close-source drivers.
+- Multiverse is proprietary software.
+
+---------------------------------------
+
+Repository Channels.
+
+Each section has the following channels.
+- "release" is the standard channel.
+- "release-updates" are the updates.
+- "release-security" which has security updates.
+- "release-backports" which are packages backported to previous kernel versions.
+
+---------------------------------------
+
+Repository Configuration Locations
+- /etc/apt/sources.list
+- /etc/apt/sources.list.d/*
+
+Check repository files.
+  $ apt policy
+
+Add repository.
+  $ sudo add-apt-repository 'deb http://archive.canonical.com/ubuntu/ disco partner'
+  $ sudo add-apt-repository ppa:libreoffice/ppa
+
+Remove a repository.
+  $ sudo add-apt-repository --remove 'deb http://archive.canonical.com/ubuntu/ disco partner'
+  $ sudo add-apt-repository --remove ppa:libreoffice/ppa
+

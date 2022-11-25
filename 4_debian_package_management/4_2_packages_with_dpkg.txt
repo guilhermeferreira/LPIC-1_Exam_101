@@ -1,0 +1,68 @@
+Debian Package Tools is used by distributions like Debian, Ubuntu, and
+Linux Mint.
+
+---------------------------------------
+
+dpkg manages installation of individual packages using APT as a dependency
+and repository manager.
+
+Package Management tool is dpkg, which is equivalent to rpm in Red Hat.
+  dpkg (Debian) = rpm (Red Hat)
+
+Repository Management tool is APT, which is equivalent to DNF in Red Hat.
+  apt (Debian) = yum/dnf (Red Hat)
+
+This means that, dpkg manages downloaded packages (i.e. package files),
+whereas apt manages packages in the repository. Also, apt uses dpkg to
+install a package once it downloads it.
+
+---------------------------------------
+
+Check if a package is installed or not.
+  $ apt search <package name>
+
+Query the database for package information. Remote package details.
+  $ apt show <package name>
+  $ apt info <package name>
+
+Query the package file for package information. Local package details.
+  $ dpkg -I <package file>.deb
+  $ dpkg --info <package file>.deb
+
+List packages according a criteria.
+  $ apt list <package name> [criteria]
+
+Download and install a package.
+  $ sudo apt install <package name>
+
+Download a package without installing it.
+  $ apt download <package name>
+
+Install a package downloaded.
+  $ sudo dpkg -i <package file>.deb
+  $ sudo dpkg --install <package file>.deb
+
+List the package's files that are going to be installed.
+  $ dpkg -c <package file>.deb
+  $ dpkg --c <package file>.deb
+
+Find the package that owns the file.
+  $ dpkg -S <file>
+  $ dpkg --search <file>
+
+Upgrade a package.
+  $ sudo apt upgrade <package name>
+
+Remove a package and its dependencies. apt manages dependencies.
+  $ sudo apt remove <package name>
+
+Remove a package, but not its dependencies. dpkg doesn't manages dependencies.
+  $ sudo dpkg -r <package name>
+  $ sudo dpkg --remove <package name>
+
+Remove a package's configuration files.
+  $ sudo apt purge <package name>
+
+Remove all unused packages.
+  $ sudo apt autoremove
+
