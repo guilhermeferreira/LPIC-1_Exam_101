@@ -1,0 +1,14 @@
+Unnamed Pipe is a direct connection between two commands running on the same
+terminal. For example, to use an unnamed pipe to redirect the standard output
+of a command to the standard input of another.
+
+  $ cat /etc/services | more
+
+
+Name Pipe (or FIFO) is an indirect connection between two commands running on
+different terminals. It's indirect because it uses a pipe file as intermediary.
+
+  $ mkfifo named_pipe
+  $ cat /etc/services > named_pipe
+  $ cat named_pipe
+

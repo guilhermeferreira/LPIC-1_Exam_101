@@ -1,0 +1,51 @@
+Simple command
+  $ echo "Hello"
+
+Compound commands
+  $ echo "Hello" ; echo "Guiga"
+  $ { echo "Hello" ; echo "Guiga"; }
+  $ ( echo "Hello" ; echo "Guiga"; )
+  $ mkdir newdir && cd newdir
+  $ mkdir newdir || echo "Directory creation failed"
+
+Conditional compound commands.
+
+- cmd1 && cmd2 runs the 2nd command only if the 1st succeeds.
+- cmd1 || cmd2 runs the 2nd command only if the 1st fails.
+
+Unconditional compount commands.
+
+- cmd1 ; cmd2 runs the 2nd command no matter if the 1st succeeds or not.
+- { cmd1 ; cmd2; } runs all commands inside the same shell.
+- ( cmd1 ; cmd2; ) runs all commands inside the same sub-shell.
+
+  $ echo "Hello"; echo "Guiga" > /tmp/echo.txt
+  Hello
+  $ cat /tmp/echo.txt
+  Guiga
+
+  $ { echo "Hello"; echo "Guiga"; } > /tmp/echo.txt
+  $ cat /tmp/echo.txt
+  Hello
+  Guiga
+
+  $ ( echo "Hello"; echo "Guiga"; ) > /tmp/echo.txt
+  $ cat /tmp/echo.txt
+  Hello
+  Guiga
+
+The difference between {} and () is that one executes the commands in the same
+shell, whereas the other executes commands in a sub-shell.
+
+Using the same shell shares the environment variables.
+
+  $ a=0; { a=10; echo "in=$a"; }; echo "out=$a"
+  in=10
+  out=10
+
+While using a sub-shell don't share variables.
+
+  $ a=0; ( a=10; echo "in=$a"; ); echo "out=$a"
+  in=10
+  out=0
+

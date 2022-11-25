@@ -1,0 +1,46 @@
+The locate(1) is database driven, while find(1) always search for files in the
+filesystem. The locate(1) command is faster, but find(1) is more reliable once
+its results are always up-to-date.
+
+  $ find <path> -name <file/pattern>
+  $ find /bin -name bash
+  /bin/bash
+
+Find files belonging to a specific user.
+
+  $ find <path> -user <user>
+  $ find /bin -user root
+
+Find files belonging to a specific group.
+
+  $ find <path> -group <group>
+  $ find /bin -group admin
+
+Find files with a specific size.
+
+  $ find <path> -size <size>
+  $ find /bin -size +1M
+  /bin/bash
+  /bin/systemctl
+  $ ls -lh /bin/bash /bin/systemctl
+  -rwxr-xr-x 1 root root 1.2M Aug  4  2021 /bin/bash
+  -rwxr-xr-x 1 root root 1.1M Mar 20  2022 /bin/systemctl
+
+Execute another command on each entry found.
+
+  $ find <path> -exec <comand>
+  $ find /bin -size +1M -exec stat -c "%s %n" {} \;
+  /bin/bash
+  /bin/systemctl
+
+Find files by modification date. The -mtime finds files modified, and +mtime not
+modified. Where time is N*24 hours (e.g. -mtime 1 is 1 day).
+
+  $ find <path> -mtime <N>
+  $ find <path> +mtime <N>
+
+Find files by type. Where TYPE is 'f' for regular files, 'd' for directories,
+'p' for named pipes, etc.
+
+  $ find <path> -type <type>
+

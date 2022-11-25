@@ -1,0 +1,77 @@
+The grep(1) command can scan a file or the stdin. 
+
+- FILE. Print lines in a file that match a pattern.
+
+  $ grep [options] '<pattern>' <FILE>
+  $ grep 'http' /etc/services
+  http            80/tcp          www             # WorldWideWeb HTTP
+  https           443/tcp                         # http protocol over TLS/SSL
+  https           443/udp                         # HTTP/3
+  http-alt        8080/tcp        webcache        # WWW caching service
+
+- STDIN. Print lines in a pipe that match a pattern.
+
+  $ [command] | grep [options] '<pattern>'
+  $ cat /etc/services | grep 'http' -
+  http            80/tcp          www             # WorldWideWeb HTTP
+  https           443/tcp                         # http protocol over TLS/SSL
+  https           443/udp                         # HTTP/3
+  http-alt        8080/tcp        webcache        # WWW caching service
+
+Useful grep options.
+
+  -i => Ignore case.
+
+  -v => Invert search.
+
+  -c => Count match results.
+
+    $ grep -c 'http' /etc/services
+    5
+
+  -o => Only characters that match.
+
+    $ grep -o 'http' /etc/services
+    http
+    http
+    http
+    http
+    http
+    http
+
+  -r => Read files recursively.
+
+  -E => Use extended regular expression (same as using egrep).
+
+Useful patternS.
+
+  Find non-blank lines.
+
+    $ grep -v '^$' <FILE>
+
+  Character set.
+
+    $ grep $'\t[0-9]/udp' /etc/services
+    echo            7/udp
+    discard         9/udp           sink null
+
+  Character class.
+
+    $ grep '[[:space:]][[:digit:]]/udp' /etc/services
+    echo            7/udp
+    discard         9/udp           sink null
+
+  Extended Regular Expressions with groups.
+
+    $ grep -E 'nfs.*(udp|tcp)' /etc/services
+    nfs             2049/tcp                        # Network File System
+    nfs             2049/udp                        # Network File System
+
+Extended Regular Expressions. commands that use ERE:
+
+  $ sed -r
+  $ grep -E
+  $ egrep
+  $ awk
+  $ bash [[ =~ ]]
+

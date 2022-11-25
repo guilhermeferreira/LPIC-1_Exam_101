@@ -1,0 +1,88 @@
+Environment variables = are defined for the current shell and are inherited by
+                        any child shells or processes.
+
+  $ a=20; ( echo "in=$a"; a=10; echo "in=$a"; ); echo "out=$a"
+  in=20
+  in=10
+  out=20
+
+Shell variables = are contained exclusively with the shell in which they were
+                  defined.
+
+---------------------------------------
+
+Print all environment variables.
+
+  $ printenv
+
+Print all shell variables
+  with functions.
+
+  $ set +o posix
+  $ set
+
+  without functions.
+
+  $ set -o posix
+  $ set
+
+Print a specific environment variables (e.g. PWD).
+
+  $ printenv <variable>
+  $ printenv PWD
+
+Print a specific shell variable (e.g. PWD).
+
+  $ echo $<variable>
+  $ echo $PWD
+
+Set a specific environment variable.
+
+  $ export <variable>=<value>
+  $ export VAR=1234
+
+Set a specific shell variable.
+
+  $ <variable>=<value>
+  $ VAR=1234
+
+Unset a specific environment variable.
+
+  $ export -n <variable>
+  $ export -n VAR
+
+Unset a specific environment variable.
+
+  $ unset <variable>
+  $ unset VAR
+
+---------------------------------------
+
+Shell Configuration Files.
+
+  - - - - - - - - - - - - ─┬──────────────────────┬─────────────────┐
+  ┌─────────────────────┐  │                      │                 │
+  │ /etc/profile        │  │                      │                 │
+  └──────────┬──────────┘  │ System-wide          │ Set variables   │
+             │             │ environment and      │ for all users   │
+  ┌──────────▼──────────┐  │ shell variables      │                 │
+  │ /etc/profile.d/*.sh │  │                      │                 │
+  └──────────┬──────────┘  │                      │                 │
+  - - - - - -│- - - - - - ─┼──────────────────────┼─────────────────┤
+  ┌──────────▼──────────┐  │ User environment and │ Set variable    │
+  │ ~/.bash_profile     │  │ shell variables      │ for a specific  │
+  └──────────┬──────────┘  │                      │ user            │
+  - - - - - -│- - - - - - ─┼──────────────────────┼─────────────────┤
+  ┌──────────▼──────────┐  │                      │                 │
+  │ ~/.bashrc           │  │ Executes /etc/bashrc │                 │
+  └──────────┬──────────┘  │                      │                 │
+  - - - - - -│- - - - - - ─┼──────────────────────┼─────────────────┤
+  ┌──────────▼──────────┐  │ System-wide aliases  │ Add aliases or  │
+  │ /etc/bashrc         │  │ and shell functions  │ functions for   │
+  └──────────┬──────────┘  │                      │ all users       │
+  - - - - - -│- - - - - - ─┼──────────────────────┼─────────────────┤
+  ┌──────────▼──────────┐  │ User aliases and     │ Add aliases of  │
+  │ ~/.bashrc           │  │ shell functions      │ functions for a │
+  └─────────────────────┘  │                      │ specific user   │
+  - - - - - - - - - - - - ─┴──────────────────────┴─────────────────┘
+

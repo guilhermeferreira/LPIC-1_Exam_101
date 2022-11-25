@@ -1,0 +1,37 @@
+See the commands you typed in.
+  $ history
+      1  mkdir somedir
+      2  reset
+      3  python3
+      4  cd somedir
+      5  echo "Working"
+      6  history
+
+Execute the last line typed in (line 6  history).
+  $ !!
+
+Execute the N-th last command typed in (e.g. 4th from bottom to top, which is
+line 3  python3).
+  $ !-<N>
+  $ !-4
+
+Execute the N-th command typed in (e.g. 2nd from top to bottom, which is
+line 2  reset).
+  $ !<N>
+  $ !2
+
+Execute most recent command starting with a string (e.g. mkdir).
+  $ !<string>
+  $ !mk
+
+Use the arguments of the last command. For example, use the arguments from ls
+in the cd command.
+  $ ls /var/log
+  $ cd !*
+
+Use the entire line from the last command. For example, use cat in sudo.
+  $ cat /etc/shadow
+  cat: /etc/shadow: Permission denied
+  $ sudo !!
+  sudo cat /etc/shadow
+

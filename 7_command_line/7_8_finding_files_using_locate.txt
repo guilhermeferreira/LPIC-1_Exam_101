@@ -1,0 +1,32 @@
+Linux has two programs to find files: locate(1) and find(1).
+
+The locate(1) command uses a database created by updatedb(1) to locate the file
+that match a pattern.
+
+  $ locate <pattern>
+  $ locate *.png
+
+Using extended regular expressions
+
+  $ locate --regex '^/[a-z]+/bash$'
+  /bin/bash
+
+Updating the database.
+
+  $ sudo updatedb
+
+Showing the database information.
+
+  $ locate -S
+  Database /var/cache/locate/locatedb is in the GNU LOCATE02 format.
+  Database was last modified at 2022:11:26 17:49:56.540000000 +0000
+  Locate database size: 905109 bytes
+  All Filenames: 68109
+  File names have a cumulative length of 3287945 bytes.
+  Of those file names,
+  
+          29 contain whitespace,
+          0 contain newline characters,
+          and 2 contain characters with the high bit set.
+  Compression ratio 72.47% (higher is better)
+

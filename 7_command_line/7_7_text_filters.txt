@@ -1,0 +1,237 @@
+---------------------------------------
+  Video: Use text filters
+---------------------------------------
+
+The cat command ConcATenates files
+
+  $ echo "One file" > file1.txt
+  $ echo "Another file" > file2.txt
+  $ cat file1.txt file2.txt
+  One file
+  Another file
+
+cat displays hidden characters (e.g. tabs) with -A
+
+  $ echo -e ".\t.a tab.\n.a new line.\n." > file.txt
+  $ cat file.txt
+  .       .a tab.
+  .a new line.
+  .
+  $ cat -A file.txt
+  .^I.a tab.$
+  .a new line.$
+  .$
+
+---------------------------------------
+
+The nl command prints files with Line Numbers.
+
+  $ nl /etc/services
+       1  tcpmux          1/tcp                           # TCP port service multiplexer
+       2  echo            7/tcp
+       3  echo            7/udp
+     ...
+     352  dircproxy       57000/tcp                       # Detachable IRC Proxy
+     353  tfido           60177/tcp                       # fidonet EMSI over telnet
+     354  fido            60179/tcp                       # fidonet EMSI over TCP
+
+The less command also prints lines with option -N.
+
+  $ less -N /etc/services
+
+---------------------------------------
+
+The wc command displays the Word Count.
+
+  $ cat /etc/services | wc
+      361    1773   12813
+  $ cat /etc/services | wc --lines
+  361
+  $ cat /etc/services | wc --words
+  1773
+  $ cat /etc/services | wc --chars
+  12813
+
+---------------------------------------
+
+The less/more commands page the output, but less is more powerful :-D less is more kkkk
+
+  $ cat /etc/services | more
+  $ cat /etc/services | less
+
+---------------------------------------
+
+The head/tail commands display the beginning and end of a file.
+
+  $ head <file>
+  $ head -n <lines to display>
+
+  $ tail <file>
+  $ tail -n <lines to display>
+  $ tail -f <file>
+
+---------------------------------------
+
+The sort command sorts the output of a command
+
+  $ echo -e "c\nb\na\na" > file.txt
+  $ cat file.txt | sort
+  a
+  a
+  b
+  c
+
+---------------------------------------
+
+The uniq command prints unique lines.
+
+  $ echo -e "c\nb\na\na" > file.txt
+  $ cat file.txt | uniq
+  c
+  b
+  a
+
+---------------------------------------
+
+The expand command converts tabs into spaces.
+
+  $ echo -e "\thello\n\tworld" > file.txt
+  $ cat -A file.txt
+  ^Ihello$
+  ^Iworld$
+  $ expand -t4 file.txt | cat -A
+      hello$
+      world$
+  $ expand -t8 file.txt | cat -A
+          hello$
+          world$
+
+---------------------------------------
+
+The unexpand command converts spaces into tabs. Each -t white spaces are
+converted.
+
+  $ echo -e "    hello\n    world" > file.txt
+  $ cat -A file.txt
+      hello$
+      world$
+  $ unexpand -t4 file.txt | cat -A
+  ^Ihello$
+  ^Iworld$
+  $ unexpand -t8 file.txt | cat -A
+      hello$
+      world$
+
+---------------------------------------
+
+The split/join command divides a file and puts the pieces together.
+
+---------------------------------------
+
+The pr command prints in columns.
+
+  $ pr -2 /etc/services
+
+---------------------------------------
+
+The tr command translates charachters.
+
+  $ echo -e "a.\nb.\nc." > file.txt
+  $ cat file.txt
+  a.
+  b.
+  c.
+
+  Transform characters.
+    $ cat file.txt | tr '.' '-'
+    a-
+    b-
+    c-
+
+  Transform character sets.
+    $ cat file.txt | tr [a-z] [A-Z]
+    A.
+    B.
+    C.
+
+  Transform character classes.
+    $ cat file.txt | tr [:lower:] [:upper:]
+    A.
+    B.
+    C.
+
+  Delete characters.
+    $ cat file.txt | tr -d '\n'
+    a.b.c.
+
+  Delete character sets.
+    $ cat file.txt | tr -d [ac]
+    .
+    b.
+    .
+
+  Delete character classes.
+    $ cat file.txt | tr -d [:lower:]
+    .
+    .
+    .
+
+---------------------------------------
+
+The cut command removes sections from each line of a file.
+Change the delimiter with option -d.
+
+  $ cut -f1 /etc/services
+  tcpmux
+  echo
+  echo
+  ...
+  dircproxy
+  tfido
+  fido
+  $ cut -f3 -d':' /etc/group
+  0
+  1
+  2
+  ...
+  104
+  105
+  106
+
+---------------------------------------
+
+The awk command is a pattern scanning and text processing language.
+Change the delimiter with option -F.
+
+  $ awk '{print $1}' /etc/services
+  tcpmux
+  echo
+  echo
+  ...
+  dircproxy
+  tfido
+  fido
+  $ awk -F':' '{print $3}' /etc/group
+  0
+  1
+  2
+  ...
+  104
+  105
+  106
+
+---------------------------------------
+
+The sed command is a Stream EDitor that allows editing text on-the-fly.
+
+  $ sed
+
+---------------------------------------
+
+The od command prints files in binary.
+
+  $ echo -e "a\nb\nc\nd" > file.txt
+  $ od -x file.txt
+  0000000 0a61 0a62 0a63 0a64
+  0000010
+

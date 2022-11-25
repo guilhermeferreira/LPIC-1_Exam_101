@@ -1,0 +1,66 @@
+Pipe sends the output of a program (stdout and stderr) to the input (stdin) of
+another program.
+
+Redirection sends the output of a program (stdout and stderr) to a file, or
+receives the input (stdin) from a file.
+
+---------------------------------------
+
+Redirect a program's STDOUT to a file.
+
+  Creating or overwritting the file.
+    $ <command> > <file>
+    $ ls > file.out
+
+  Appending to the contents of the file.
+    $ <command> >> <file>
+    $ ls >> file.out
+
+---------------------------------------
+
+Redirect a program's STDERR to a file.
+
+  Creating or overwritting the file.
+    $ <command> 2> <file>
+    $ ls 2> file.err
+
+  Appending to the contents of the file.
+    $ <command> 2>> <file>
+    $ ls 2>> file.err
+
+---------------------------------------
+
+Redirect both STDOUT and STDERR to a file.
+  Creating or overwritting the file.
+    $ <command> &> <file>
+    $ ls &> file.both
+
+  Appending to the contents of the file.
+    $ <command> &>> <file>
+    $ ls &>> file.both
+
+---------------------------------------
+
+Redirect a file to the STDIN of a program.
+  $ <command> < <file>
+  $ more < /etc/services
+
+---------------------------------------
+
+Redirect a file to the STDIN of a program, and the program's output to a second
+file.
+  $ <command> < <in-file> > <out-file>
+  $ sort < /etc/services > sorted_services.txt
+
+---------------------------------------
+
+Sends a program's output to both a file and the the screen.
+
+  Creating or overwritting the file.
+    $ <command> | tee <file>
+    $ ls | tee file.txt
+
+  Appending to the contents of the file.
+    $ <command> | tee -a <file>
+    $ ls | tee -a file.txt
+

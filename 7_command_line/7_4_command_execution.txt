@@ -1,0 +1,10 @@
+Get the directory of a command.
+  $ which <command>
+  $ which bash
+  /bin/bash
+
+Get more information of a command.
+  $ whereis <command>
+  $ whereis bash
+  bash: /bin/bash /etc/bash.bashrc /usr/share/man/man1/bash.1.gz
+
