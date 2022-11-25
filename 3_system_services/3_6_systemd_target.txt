@@ -1,0 +1,20 @@
+Targets are the systemd equivalents to init's runlevels.
+
+List targets
+  $ systemctl list-units -t target
+
+Check current running target
+  $ systemctl get-default
+or
+  $ ls -l /etc/systemd/system/default.target
+
+Change default target
+  $ sudo systemctl set-default <target>
+  $ sudo systemctl set-default multi-user.target
+
+  "graphical.target" = runlevel 5
+
+Switch targets
+  $ sudo systemctl isolate <target>
+  $ sudo systemctl isolate multi-user.target
+

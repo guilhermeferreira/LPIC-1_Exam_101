@@ -1,0 +1,28 @@
+Systemd manages objects like services, devices, timers, and so on.
+Systemd objects are called units.
+
+
+List systemd units:
+  $ systemctl list-unit-files
+
+STATE are
+- enabled: starting on boot.
+- diabled: not starting on boot, but can be enabled.
+- static: not enabled. 
+
+List (service) file units:
+  $ systemctl list-unit-files -at <unit>
+  $ systemctl list-unit-files -at service
+
+List running (service) units:
+  $ systemctl list-units -at <unit>
+  $ systemctl list-units -at service
+
+Show the unit file of a given (service) unit (e.g. system service)
+  $ systemctl cat <unit>
+  $ systemctl cat rsyslog
+
+Show the status of a given unit (e.g. system service)
+  $ systemctl status <unit>
+  $ systemctl status rsyslog
+

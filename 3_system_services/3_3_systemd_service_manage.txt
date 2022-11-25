@@ -1,0 +1,36 @@
+List all service units
+  $ systemctl list-unit-files -at <unit>
+  $ systemctl list-unit-files -at service
+
+Check the status
+  $ systemctl status <service>
+  $ systemctl status atd
+
+------------------------
+Start and Stop a service
+------------------------
+
+Stop a system service
+  $ sudo systemctl stop <service>
+  $ sudo systemctl stop atd
+
+Start a system service
+  $ sudo systemctl start <service>
+  $ sudo systemctl start atd
+
+Restart a system service
+  $ sudo systemctl restart <service>
+  $ sudo systemctl restart atd
+
+Check if a service is active
+  $ systemctl is-active <service>
+  $ systemctl is-active atd
+
+Preventing a service from starting
+  $ sudo systemctl mask <service>
+  $ sudo systemctl mask atd
+
+Allowing a service to start
+  $ sudo systemctl unmask <service>
+  $ sudo systemctl unmask atd
+

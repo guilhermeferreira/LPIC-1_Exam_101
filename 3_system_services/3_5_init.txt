@@ -1,0 +1,54 @@
+SystemV init
+
+Replaced by upstart, then systemd.
+
+Release by AT&T in 1983.
+
+Last Linux distributions to use init.
+- Ubuntu 6.06 (2006).
+- Fedora 8 (2007).
+- Red Hat Enterprise Linux 5 (2007).
+- OpenSUSE 11.2 (2009).
+- Debian Wheezy (2013).
+
+Initialization process:
+1. Kernel runs /sbin/init
+2. Init loads /etc/inittab.
+3. Inittab configures...
+   3.1. Default runlevel.
+   3.2. Control-Al-Del behavior.
+   3.3. Executes links in /etc/rc.d/rc.<runlevel>
+4. Runlevel scripts start services.
+
+Runlevel is a system configuration profile. There're 7 runlevels total:
+- Runlevel 0: halt.
+- Runlevel 1: single-user mode. Without password, and without network.
+- Runlevel 2: multi-user mode. Loggin woth many users, but without network.
+- Runlevel 3: multi-user mode with networking. Fully fnctional command-line system.
+- Runlevel 4: undefined.
+- Runlevel 5: multi-user mode with networking and GUI. <= Common for Desktop
+- Runlevel 6: reboot. All services are stoped, and the system reboots.
+
+Start a service with SystemV init:
+  $ /etc/init.d/<service> start
+  $ /etc/init.d/httpd start
+
+Stop a service with SystemV init:
+  $ /etc/init.d/<service> stop
+  $ /etc/init.d/httpd stop
+
+Restart, reload, and status a service with SysV init:
+  $ /etc/init.d/httpd restart
+  $ /etc/init.d/httpd reload
+  $ /etc/init.d/httpd status
+
+Red Hat has the 'service' command, which is like the /etc/init.d/ scripts
+  $ service httpd start
+  $ /etc/init.d/httpd start
+
+Change the runlevel
+  $ init <runlevel>
+
+Change the runlevel to reboot. The OS will boot and reboot continuously.
+  $ init 6
+

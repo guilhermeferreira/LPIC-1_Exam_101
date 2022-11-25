@@ -1,0 +1,19 @@
+List all system services
+  $ systemctl list-unit-files -at service
+
+Check if a system service is enabled
+  $ systemctl is-enabled <service>
+  $ systemctl is-enabled atd
+
+--------------------------------
+Enabling and Disabling a service
+--------------------------------
+
+Disable a system service
+  $ sudo systemctl disable <service>
+  $ sudo systemctl disable atd
+
+Enable a system service
+  $ sudo systemctl enable <service>
+  $ sudo systemctl enable atd
+

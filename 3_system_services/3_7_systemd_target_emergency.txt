@@ -1,0 +1,7 @@
+Boot the system into emergency mode by editing boot parameter in GRUB:
+
+1. Stop at the GRUB2 menu.
+2. Press "e" key to edit. 
+3. Look for the vmlinux line and press the "end" key.
+4. Add the "systemd.unit=emergency.target" at the end of the kernel command line.
+
