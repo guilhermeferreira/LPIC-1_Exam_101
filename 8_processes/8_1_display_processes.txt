@@ -1,0 +1,70 @@
+The ps command has 3 types of syntax options.
+
+1. Unix has one dash '-' before a single letter
+
+  $ ps -eF
+
+2. BSD has no dash, just letter.
+
+  $ ps aux
+
+3. GNU has two dashes '--' followed by a word.
+
+  $ ps --format uid,pid,ppid,%cpu,cmd
+
+---------------------------------------
+
+Show only processes run by the current user in the current shell.
+
+  $ ps
+    PID TTY          TIME CMD
+      1 pts/0    00:00:01 bash
+  15678 pts/0    00:00:00 ps
+
+Show all processes.
+
+  $ ps -e
+    PID TTY          TIME CMD
+      1 pts/0    00:00:01 init
+     83 ?        00:00:00 sh
+    ...
+  23353 ?        00:00:00 sh
+  23366 ?        00:00:00 node
+
+Show process hierarchy (i.e. parent and child process relationship shown by
+indentation).
+
+  $ ps -H
+    PID TTY          TIME CMD
+      1 pts/0    00:00:01 bash
+  15679 pts/0    00:00:00   ps
+
+Show more information.
+
+  $ ps -f
+  UID        PID  PPID  C STIME TTY          TIME CMD
+  root         1     0  0 Nov23 pts/0    00:00:01 bash
+  root     15686     1  0 21:39 pts/0    00:00:00 ps -f
+  $ ps -F
+  UID        PID  PPID  C    SZ   RSS PSR STIME TTY          TIME CMD
+  root         1     0  0  1040  3412   6 Nov23 pts/0    00:00:01 bash
+  root     15687     1  0  1689  2824   7 21:40 pts/0    00:00:00 ps -F
+  $ ps -lF
+  F S UID        PID  PPID  C PRI  NI ADDR SZ WCHAN    RSS PSR STIME TTY          TIME CMD
+  4 S root         1     0  0  80   0 -  1040 do_wai  3412   6 Nov23 pts/0    00:00:01 bash
+  0 R root     15689     1  0  80   0 -  1689 -       2804   7 21:41 pts/0    00:00:00 ps -lF
+
+Sort the output (ascending order).
+
+  $ ps --sort time
+    PID TTY          TIME CMD
+  15694 pts/0    00:00:00 ps
+      1 pts/0    00:00:01 bash
+
+Sort the output (descending order).
+
+  $ ps --sort -time
+    PID TTY          TIME CMD
+      1 pts/0    00:00:01 bash
+  15694 pts/0    00:00:00 ps
+

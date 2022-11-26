@@ -1,0 +1,15 @@
+Run jobs independently from a terminal session.
+
+Nohup, short for no hang up is a command in Linux systems that keep processes
+running even after exiting the shell or terminal. The & tells the process to
+immediately start running in the background and relinquish the terminal prompt
+back to the user.
+
+  $ nohup <command> &
+  $ nohup ping 8.8.8.8 &
+  [1] 7397
+  nohup: ignoring input and appending output to 'nohup.out'
+  $ tail -f nohup.out
+  64 bytes from 8.8.8.8: icmp_seq=140 ttl=58 time=9.86 ms
+  64 bytes from 8.8.8.8: icmp_seq=141 ttl=58 time=11.3 ms
+

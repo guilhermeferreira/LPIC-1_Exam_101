@@ -1,0 +1,37 @@
+The top command displays real-time information about processes.
+
+Control processes:
+
+- Kill a process, press "k" key.
+
+- Change the nice value (i.e. priority), press "r" key.
+
+
+Toggle display of:
+
+- Load average, press "l" key.
+
+- All CPU cores, press "1" key.
+
+- Tasks, press "t" key.
+
+- Memory usage, press "m" key.
+
+- Command name and command-line, press "c" key.
+
+
+Configure the display of:
+
+- Fields, press "f" key.
+
+
+Sort the display of processes by:
+
+- Memory, press "shift + m" (uppercase M).
+
+- Processor/CPU usage, press "shift + p".
+
+- Time running, press "shift + T".
+
+- Process ID number, press "shift + n".
+

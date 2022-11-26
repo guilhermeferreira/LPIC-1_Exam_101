@@ -1,0 +1,49 @@
+The watch command executes a command periodically.
+
+  $ watch <command>
+  $ watch -n<seconds> <command>
+  $ watch -n1 ps -H -C dd --format pid,user,%cpu,cmd
+  Every 1.0s: ps -H -C dd --format pid,user,%cpu,cmd  localhost.localdomain: Sun Nov 27 13:52:32 2022
+      PID TTY          TIME CMD
+     3398 pts/1    00:00:00 bash
+     4250 pts/1    00:00:00   watch
+     4259 pts/1    00:00:00     watch
+     4260 pts/1    00:00:00       ps
+
+Job control
+
+  - "control + z" stops the process and puts it on the background.
+      $ dd if=/dev/zero of=/dev/null
+      ^Z
+      [1]+  Stopped                 dd if=/dev/zero of=/dev/null
+
+  - The jobs command shows the jobs.
+      $ jobs
+      [1]+  Stopped                 dd if=/dev/zero of=/dev/null
+
+  - The bg command runs a job on the background.
+      $ bg <job spec number>
+      $ bg 1
+      [1]+ dd if=/dev/zero of=/dev/null &
+      $	jobs
+      [1]+  Running                 dd if=/dev/zero of=/dev/null &
+
+  - The fg command brings a job to the foregound.
+      $ fg <job spec number>
+      $ fg 1
+      dd if=/dev/zero of=/dev/null
+
+  - "control + c" terminates the process. 
+      dd if=/dev/zero of=/dev/null
+      ^C
+      522488074+0 records in
+      522488074+0 records out
+      267513893888 bytes (268 GB, 249 GiB) copied, 369.842 s, 723 MB/s
+
+  - The "&" runs a program in the background.
+      $ dd if=/dev/zero of=/dev/null &
+      [1] 6195
+
+  - The "( )" runs a program in another shell.
+      $ (dd if=/dev/zero of=/dev/null)
+

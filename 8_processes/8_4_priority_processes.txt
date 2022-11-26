@@ -1,0 +1,28 @@
+The nice command manages the priority of a process.
+
+Process niceness/priority
+
+  ───────────────────── -19
+            ▲                        ▲
+            │                        │ Less nice  = Higher priority
+            │                        │ to the CPU
+    Provileged users
+  ───────────────────── 0   Default
+   Nonprivileged users               │
+            │                        │ More nice  = Lower priority
+            │                        │ to the CPU
+            ▼                        ▼
+  ───────────────────── 19
+
+Use the nice command to run a program with a specific priority.
+
+  $ nice -<priority> <program>
+  $ nice -2 top         <= nice level of 2
+  $ sudo nice --2 top        <= nice level of -2
+
+Use the renice command to change the priority of a process.
+
+  $ sudo renice <priority> <pid>
+  $ sudo renice 1 $(pidof top)
+  3649 (process ID) old priority 2, new priority 1
+
