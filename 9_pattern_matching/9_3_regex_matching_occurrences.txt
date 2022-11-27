@@ -1,0 +1,12 @@
+Video: Specifying occurrences with regexes
+
+Pattern            Match
+  .                one character
+  .?               zero or one occurrence
+  .*               zero or more occurrences
+  .+               one or more occurrences
+  .{n}             n occurrences
+  .{n,}            n or more occurrences
+  .{,n}            one to n occurrences
+  .{ni,nf}         ni to nf occurrences
+

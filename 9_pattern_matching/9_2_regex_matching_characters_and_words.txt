@@ -1,0 +1,25 @@
+
+
+Pattern        Match
+
+[abc]          One character in the list
+[^abc]         One character NOT in the list
+[0-9]          One number in the range
+
+\b             Empty string at word edge
+\B             Empty string NOT at word edge
+\<             Empty string at beginning of word
+\>             Empty string at end of word
+
+\w             An entire word
+[_[:alnum:]]
+
+\W             A non-word
+[^_[:alnum:]]
+
+\s             Whitespace
+[[:space:]]
+
+\S             Non-whitespace
+[^[:space:]]
+

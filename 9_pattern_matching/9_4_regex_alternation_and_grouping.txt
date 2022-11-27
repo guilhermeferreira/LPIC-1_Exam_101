@@ -1,0 +1,32 @@
+Alternation
+---------------------------------------
+
+Alternation uses pipe '|' and allows matching one or another.
+
+  Alternation               Matches
+
+  dog|cat                   dog
+                            cat
+                            dogdog
+                            catcat
+                            dogcat
+
+  $ echo "dog cat dogdog catcat dogcat catdog" | grep -E '\bdog|cat\b'
+  dog cat dogdog catcat dogcat catdog
+  ^^^ ^^^ ^^^       ^^^ ^^^^^^
+
+
+Grouping
+---------------------------------------
+Grouping uses parenthesis '()' and treats more than one pattern as one match.
+It restricts the reach of the alternation.
+
+  Grouping                  Matches
+
+  (dog|cat)                 dog
+                            cat
+
+  $ echo "dog cat dogdog catcat dogcat catdog" | grep -E '\b(dog|cat)\b'
+  dog cat dogdog catcat dogcat catdog
+  ^^^ ^^^
+

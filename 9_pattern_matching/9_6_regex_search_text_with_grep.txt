@@ -1,0 +1,80 @@
+Search text using the grep command.
+
+  |g|lobal
+  |r|regular
+  |e|xpression
+  |p|rint
+
+
+---------------------------------------
+  Matching Selection - Regex Type
+---------------------------------------
+
+By default, grep uses BRE, or force it to use BRE with -G option.
+  $ grep <bre pattern> <file>
+  $ grep -G <bre pattern> <file>
+  $ grep --basic-regexp <bre pattern> <file>
+
+
+but can use ERE with -E option.
+  $ grep -E <ere pattern> <file>
+  $ grep --extended-regexp <ere pattern> <file>
+
+
+grep can also use Perl regexes (PCRE) with -P option.
+  $ grep -P <pcre pattern> <file>
+  $ grep --perl-regexp <pcre pattern> <file>
+
+
+---------------------------------------
+  Input Control - Pattern Specifier
+---------------------------------------
+
+Use <pattern> as pattern.
+  $ grep -e '<pattern>'
+
+
+Get patterns from file.
+  $ grep -f <file>
+
+
+---------------------------------------
+  Matching Control - Pattern Boundary
+---------------------------------------
+
+Match only whole words (same as -E '\b<pattern>\b').
+  $ grep -w '<pattern>'
+  $ echo "go going gorilla" | grep 'go'
+  go going gorilla
+  ^^ ^^    ^^
+  $ echo "go going gorilla" | grep -w 'go'
+  go going gorilla
+  ^^
+  $ echo "go going gorilla" | grep -E '\bgo\b'
+  go going gorilla
+  ^^
+
+
+Match whole lines (same as -E '^<pattern>$').
+  $ grep -x '<pattern>'
+
+
+---------------------------------------
+  Output Control - Return Type
+---------------------------------------
+
+Return only the text that matches the expression.
+  $ grep -o '<pattern>'
+  $ echo "go going gorilla" | grep -o 'go'
+  go
+  go
+  go
+
+
+Return only the code indicating if the text matches or not.
+  $ grep -q '<pattern>'
+  $ echo "go going gorilla" | grep -q 'go'; echo $?
+  0
+  $ echo "go going gorilla" | grep -q 'ga'; echo $?
+  1
+

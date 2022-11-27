@@ -1,0 +1,27 @@
+Back references are patterns that are stored in a buffer, which can be recalled
+latter. There're up to nice (9) backreferences.
+
+POSIX ERE doesn't support backreferences, requiring us to convert to BRE for
+non GNU tools.
+
+
+  $ echo "unpossess sleeplessness selflessness" | grep -E '(ss).\1'
+  unpossess sleeplessness selflessness
+      ^^^^^
+      ^^.^^
+     (ss)\1
+         ^^
+        (ss)
+
+  $ echo "unpossess sleeplessness selflessness" | grep -E '(ss)..\1'
+  unpossess sleeplessness selflessness
+                   ^^^^^^       ^^^^^^
+                   ^^..^^       ^^..^^
+                  (ss) \1      (ss) \1
+                       ^^           ^^
+                      (ss)         (ss)
+
+  $ echo "radar" | grep -E '^(.)(.).\2\1$'
+  radar
+  ^^^^^
+

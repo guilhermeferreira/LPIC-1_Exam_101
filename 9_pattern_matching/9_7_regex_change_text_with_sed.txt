@@ -1,0 +1,31 @@
+The sed command is the stream editor for filtering and transforming text.
+
+  $ sed '<command>' <file>
+  $ echo <text> | sed '<command>' -
+
+
+---------------------------------------
+  Commands
+---------------------------------------
+
+Print matching regex (-E to use ERE).
+
+  $ sed '/regex/' <file>
+  $ echo -e "I have 12 dogs\nbut not cat" | sed -E '/[0-9]+/p'
+  I have 12 dogs
+  I have 12 dogs
+  but not cat
+
+
+Substitute (replace) regex by text replacement (-E to use ERE).
+
+  $ sed 's/<regexp>/<replacement>/' <file>
+  $ echo "I have 12 dogs" | sed -E 's/[0-9]+/twelve/'
+  I have twelve dogs
+
+
+Back references.
+
+  $ echo "0799500998" | sed -E 's/([[:digit:]]{3})([0-9]{3})([0-9]{4})/\1-\2-\3/'
+  079-950-0998
+
