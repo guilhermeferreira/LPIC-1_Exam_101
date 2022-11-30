@@ -1,0 +1,37 @@
+There're two types of links
+
+- Hard link, which is another name for the same data blocks (i-node). A hardlink
+  cannot link across filesystems, nor link to directories.
+
+    $ ln <file> <hard-link>
+
+    $ touch file.txt
+    $ ls -l
+    -rw-rw-r--. 1 admin admin 0 Dec  3 09:39 file.txt
+                ^
+    $ stat file.txt
+      File: file.txt
+      Size: 0             Blocks: 0       IO Block: 4096   regular empty file
+    Device: fd00h/64768d  Inode: 2275337  Links: 1
+                                          ^^^^^^^^
+    $ ln file.txt filelink.txt
+    $ ls -l
+    -rw-rw-r--. 2 admin admin 0 Dec  3 09:39 filelink.txt
+    -rw-rw-r--. 2 admin admin 0 Dec  3 09:39 file.txt
+                ^
+    $ stat filelink.txt
+      File: filelink.txt
+      Size: 0             Blocks: 0       IO Block: 4096   regular empty file
+    Device: fd00h/64768d  Inode: 2275337  Links: 2
+                          ^^^^^^^^^^^^^^  ^^^^^^^^
+                          Same i-node     Increased link count
+
+- Symbolic links, which is a file that points to another file.
+
+    $ ln -s <file> <symbolic-link>
+
+    $ ln -s file.txt filelink.txt
+    $ ls -l
+    lrwxrwxrwx. 1 admin admin 8 Dec  3 09:53 filelink.txt -> file.txt
+    -rw-rw-r--. 1 admin admin 0 Dec  3 09:39 file.txt
+

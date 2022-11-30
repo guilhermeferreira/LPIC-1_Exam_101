@@ -1,0 +1,10 @@
+The tree command shows a directory's visual hierarchy.
+
+  $ sudo apt install tree
+  $ sudo yum install tree
+  $ tree <dir>
+
+The file command shows file information.
+
+  $ file <file>
+

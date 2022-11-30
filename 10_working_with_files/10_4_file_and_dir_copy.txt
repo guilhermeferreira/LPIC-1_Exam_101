@@ -1,0 +1,16 @@
+Copy files from <src> to <dst>
+
+  $ cp <src-file> <dst-file>
+  $ cp -R <src-dir> <dst-dir>
+
+Useful cp options:
+
+  -a    Archive option preserves all file attributes (ownership, permissions,
+        extended attr).
+
+  -b    Backup, which backups the destinations file before overwritting it.
+
+  -n    No clobber prevents overwriting files if they exist.
+
+  -u    Update only moves a file if it's newer than the destination.
+

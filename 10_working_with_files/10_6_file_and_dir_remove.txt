@@ -1,0 +1,12 @@
+Remove files:
+
+  $ rm <file>
+
+Remove empty directories:
+
+  $ rmdir <dir>
+
+Remove non-empty directories:
+
+  $ rm -R <dir>
+

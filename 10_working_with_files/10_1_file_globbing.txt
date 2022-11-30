@@ -1,0 +1,34 @@
+In Bash, pattern matching is called file globbing.
+
+  File Globbing = Pattern Matching
+
+  ┌─────────────┬───────────────────────────────────────────┐
+  │  File Glob  │ Matches                                   │
+  ├─────────────┼───────────────────────────────────────────┤
+  │      *      │ Any character, n times                    │
+  ├─────────────┼───────────────────────────────────────────┤
+  │      ?      │ Any character, 1 time                     │
+  ├─────────────┼───────────────────────────────────────────┤
+  │     [ ]     │ Any character in the Set, 1 time          │
+  │   [12345]   │  List                                     │
+  │    [1-5]    │  Range                                    │
+  │     [!]     │  Negate                                   │
+  ├─────────────┼───────────────────────────────────────────┤
+  │             │ Any character in the Class, 1 time        │
+  │ [[:digit:]] │  Numbers                                  │
+  │ [[:upper:]] │  Uppercase characters                     │
+  │ [[:lower:]] │  Lowercase characters                     │
+  │ [[:alpha:]] │  Uppercase and lowercase characters       │
+  │ [[:alnum:]] │  Uppercase and lowercase , plus numbers   │
+  │ [[:space:]] │  Spaces, tabs, and newlines               │
+  │ [[:graph:]] │  Printable characters, except spaces      │
+  │ [[:print:]] │  Printable characters, including spaces   │
+  │ [[:punct:]] │  Punctuation                              │
+  │ [[:cntrl:]] │  Nonprintable control characters          │
+  │ [[:xdigit:]]│  Hexadecimal characters                   │
+  ├─────────────┼───────────────────────────────────────────┤
+  │     { }     │ Brace expansion                           │
+  └─────────────┴───────────────────────────────────────────┘
+
+  $ ls /etc/*.conf
+

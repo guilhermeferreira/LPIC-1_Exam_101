@@ -1,0 +1,16 @@
+Create files on the command-line with...
+
+- text editor
+    $ vim file.txt
+
+- redirect
+    $ echo "text" > file.txt
+
+- touch command, which real job is to update the timestamp of a file
+    $ touch file.txt
+
+Create a directory on the command-line:
+
+  $ mkdir <dir>
+  $ mkdir -p <path>
+

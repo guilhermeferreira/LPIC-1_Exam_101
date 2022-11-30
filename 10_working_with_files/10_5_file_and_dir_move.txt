@@ -1,0 +1,22 @@
+When copy a file, it copies the file's data blocks to a new location on the
+disk (using the filesystem).
+
+  $ cp /home/bob/file1.txt /home/ted/file1.txt
+
+When moving a file between different filesystems, it copies the file's data
+blocks to the location and deletes the origin data block.
+
+  $ mv /fs1/file1.txt /fs2/file1.txt = cp /fs1/file1.txt /fs2/file1.txt
+                                       rm /fs1/file1.txt
+
+When moving a file in the same filesystem, it just pdates the file's location
+in the filesystem.
+
+Useful mv options:
+
+  -b    Backup, which backups the destinations file before overwritting it.
+
+  -n    No clobber prevents overwriting files if they exist.
+
+  -u    Update moves a file only if it's newer than the destination.
+
