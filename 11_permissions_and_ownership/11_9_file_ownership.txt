@@ -1,0 +1,18 @@
+---------------------------------------
+ File ownership
+---------------------------------------
+
+The ls -l command option lists the user and group owners of a file:
+                         ^ ^
+  $ ls -l <file>
+
+  $ ls -l file.txt
+  -rw-r--r--. 1 root root 0 Dec  7 12:00 file.txt  
+
+
+The chown command changes the owner of a file:
+                  ^^          ^^^
+  $ chown <user>:<group> <file>
+  $ chown <user> <file>
+  $ chown :<group> <file>
+

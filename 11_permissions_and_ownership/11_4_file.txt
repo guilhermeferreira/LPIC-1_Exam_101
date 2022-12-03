@@ -1,0 +1,75 @@
+What is a file?
+
+It's an object saved in the hard disk.
+
+Types of files.
+
+---------------------------------------
+  Storage files
+---------------------------------------
+
+- Directory is a list of other files. It's identified by the letter 'd' in the
+  long listing.
+    $ mkdir mydir
+    $ ls -l
+    drwxrwxr-x. 2 admin admin 6 Dec  3 10:14 mydir
+    ^
+    directory
+
+- Regular File contains data. It's identified by a '-' in the long listing.
+    $ touch regfile
+    $ ls -l
+    -rw-rw-r--. 1 admin admin 0 Dec  3 10:16 regfile
+    ^
+    regular file
+
+---------------------------------------
+  Link files
+---------------------------------------
+
+- Symbolic Link is a shortcut to another file. It's identified by the letter
+  'l' in the long listing.
+    $ ln -s regfile symblink
+    $ ls -l
+    lrwxrwxrwx. 1 admin admin 7 Dec  3 10:19 symblink -> regfile
+    ^
+    link symbolic
+
+---------------------------------------
+  Device files
+---------------------------------------
+
+- Character Device File input/outputs characters to a device. It's identified
+  by the letter 'c' in the long listing.
+    $ ls -l /dev/random 
+    crw-rw-rw-. 1 root root 1, 8 Dec  3 09:08 /dev/random
+    ^
+    character device
+
+- Block Device File represents block devices such hard disks. It's identified
+  by the letter 'b' in the long listing.
+    $ ls -l /dev/sda
+    brw-rw----. 1 root disk 8, 0 Dec  3 09:08 /dev/sda
+    ^
+    block device
+
+---------------------------------------
+  IPC files
+---------------------------------------
+
+- Socket File facilitates the communication between applications. Identified by
+  the 's' in the listing.
+    $ nc -lU sock
+    $ ls -l
+    srwxrwxr-x. 1 admin admin 0 Dec  3 10:33 sock
+    ^
+    socket
+
+- Named Pile File (FIFO) is a buffer to place data in order to be processed by
+  other application. Identified by the letter 
+    $ mkfifo fifo
+    $ ls -l
+    prw-rw-r--. 1 admin admin 0 Dec  3 10:46 fifo
+    ^
+    pipe
+

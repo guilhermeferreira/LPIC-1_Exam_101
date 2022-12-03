@@ -1,0 +1,36 @@
+---------------------------------------
+ Standard Linux Permissions: features
+---------------------------------------
+
+- Users can belong to multiple groups.
+- Files and directories belong to one user owner.
+
+- Groups cannot contain other groups.
+- Files and directories belong to one group owner.
+
+- Permissions can be set for user, group, and other.
+- Other is someone outside the user or the group owner.
+
+- Users can read, write, or execute files.
+- Users can list, create new files, and traverse directories.
+
+- Permissions support privilege escalation to the user or group owner of the
+  file via SUID (set uid) and SGUI (set gui).
+- Permissions support group owner inheritance.
+
+---------------------------------------
+ Standard Linux Permissions: shortfalls
+---------------------------------------
+
+- Files and directories can have only one user owner.
+- Files and directories can have only one group owner.
+
+- Permissions set for other are not concise. We don't know who "other" is. We
+  just know it's not the user or goup owner.
+
+- Inheritance only supports group ownership, but not permission inheritance.
+- There is no easy way to back up and restore permissions.
+- There is no easy way to temporarily restrict permissions.
+
+Access Control Lists (ACLs) remedy these issues.
+

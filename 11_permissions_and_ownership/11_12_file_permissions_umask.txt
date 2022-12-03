@@ -1,0 +1,64 @@
+---------------------------------------
+ Default permissions using umask
+---------------------------------------
+
+When files and directories are created, default permissions are applied
+automatically. These permissions are calculated based on a bitmask called
+umask.
+
+The umask builtin command displays and modifies the umask.
+
+  $ type umask
+  umask is a shell builtin
+
+Display numeric permission mask.
+
+  $ umask
+  0022
+
+Display symbolic permission mask.
+
+  $ umask -S
+  u=rwx,g=rx,o=rx
+
+Change the umask with
+
+  $ umask <bitmask>
+  $ umask 0002
+
+In order to calculate the default permission from the umask, we have to subtract
+the umask from the maximum permission.
+
+  ┌───────────┬───────────┬────────────────────────────────┐
+  │ Symbolic  │  Numeric  │ Maximum initial permission for │
+  ├───────────┼───────────┼────────────────────────────────┤
+  │ rwxrwxrwx │    777    │ Directories                    │
+  ├───────────┼───────────┼────────────────────────────────┤
+  │ rw-rw-rw- │    666    │ Files                          │
+  └───────────┴───────────┴────────────────────────────────┘
+
+For example, if the umask is 022, and the maximum permission for directories is
+777, then:
+
+     7   7   7
+   - 0   2   2
+   --- --- ---
+     7   5   5
+   rwx r-x r-x
+
+  $ mkdir newdir
+  $ ls -ld newdir
+  drwxr-xr-x 1 guilherme guilherme 4096 Dec  8 00:23 /tmp/newdir
+
+and if the umask is 022 and the maximum permission for files is 666, then:
+
+     6   6   6
+   - 0   2   2
+   --- --- ---
+     6   4   4
+   rw- r-- r--
+
+  $ touch newfile.txt
+  $ ls -l newfile.txt
+  -rw-r--r-- 1 guilherme guilherme 0 Dec  8 00:24 newfile.txt
+

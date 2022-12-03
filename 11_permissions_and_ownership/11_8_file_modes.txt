@@ -1,0 +1,24 @@
+---------------------------------------
+ Permission Modes
+---------------------------------------
+
+There are 3 permission modes that work diferently for files and directories.
+
+- Read
+- Write
+- Execute
+
+  ┌───────────┬───────────────────────────────┬───────────────────────────────┐
+  │   Mode    │ File                          │ Directory                     │
+  ├───────────┼───────────────────────────────┼───────────────────────────────┤
+  ├───────────┼───────────────────────────────┼───────────────────────────────┤
+  │   Read    │ Open and read the contents    │ Read the metadata of files in │
+  │           │                               │ the directory                 │
+  ├───────────┼───────────────────────────────┼───────────────────────────────┤
+  │   Write   │ Write or modify the contents  │ Create new files in the       │
+  │           │                               │ directory                     │
+  ├───────────┼───────────────────────────────┼───────────────────────────────┤
+  │  Execute  │ Load into memory and run on   │ Enter or traverse the         │
+  │           │ the CPU                       │ directory                     │
+  └───────────┴───────────────────────────────┴───────────────────────────────┘
+

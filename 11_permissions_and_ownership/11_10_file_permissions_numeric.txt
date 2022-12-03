@@ -1,0 +1,59 @@
+---------------------------------------
+ Permission Method: numeric
+---------------------------------------
+
+There are two methods to set permissions on Linux:
+- Numeric.
+- Symbolic.
+
+The numeric permissions are read=4, write=2, and execute=1.
+
+   rwx r-x --- 1 guilherme guilherme 0 Dec  7 12:00 file.txt
+   ^^^ ^^^ ^^^
+     4   4   0
+     2   0   0
+   + 1 + 1 + 0
+   --- --- ---
+     7   5   0
+
+Some examples are:
+
+  ┌───────────┬───────┬───────┬───────┐
+  │   Mode    │ user  │ group │ other │
+  ├───────────┼───────┼───────┼───────┤
+  ├───────────┼───────┼───────┼───────┤
+  │  (r)ead   │   4   │   4   │   4   │
+  ├───────────┼───────┼───────┼───────┤
+  │  (w)rite  │   2   │   2   │   2   │
+  ├───────────┼───────┼───────┼───────┤
+  │ e(x)ecute │   1   │   1   │   1   │
+  ├───────────┼───────┼───────┼───────┤
+  │     +     │   =   │   =   │   =   │
+  ├───────────┼───────┼───────┼───────┤
+  │ rwxrwxr-x │   7   │   7   │   5   │
+  ├───────────┼───────┼───────┼───────┤
+  │ rw-rw-r-- │   6   │   6   │   4   │
+  ├───────────┼───────┼───────┼───────┤
+  │ r--r----- │   4   │   4   │   0   │
+  └───────────┴───────┴───────┴───────┘
+
+The stat(1) command displays the numeric permissions with '%a' format.
+
+  $ stat -c <format> <file>
+
+  $ stat -c '%a %U %G %n' file.txt
+  644 user group file.txt
+  ▲▲▲
+  │││
+  ││└─ other
+  │└── group
+  └─── user
+
+The chmod(1) command changes the numeric permissions
+
+  $ chmod <numeric permission> <file>
+
+  $ chmod 664 file.txt
+  $ ls -l file.txt
+  -rw-rw-r-- 1 guilherme guilherme 0 Dec  7 12:00 file.txt
+

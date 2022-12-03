@@ -1,0 +1,33 @@
+---------------------------------------
+ Permission Method: symbolic
+---------------------------------------
+
+The ls(1) command displays symbolic permissions:
+
+  $ ls -l /tmp/file.txt
+  -rw-r--r-- 1 guilherme guilherme 0 Dec  7 12:00 /tmp/file.txt
+   ▲  ▲  ▲
+   │  │  │
+   │  │  └── o=r
+   │  └───── g=r
+   └──────── u=rw
+
+The chmod(1) command changes the symbolic permissions. We can assign (=),
+add (+), or remove (-) permissions.
+
+  $ chmod u=<user perm>,g=<group perm>,o=<other perm> <file>
+  $ chmod u+<user perm>,g+<group perm>,o+<other perm> <file>
+  $ chmod u-<user perm>,g-<group perm>,o-<other perm> <file>
+
+  $ chmod u=rw,g=r,o= file.txt
+  $ ls -l file.txt
+  -rw-r----- 1 guilherme guilherme 0 Dec  7 12:00 file.txt
+
+  $ chmod u+x,g+w,o+r file.txt
+  $ ls -l file.txt
+  -rwxrw-r-- 1 guilherme guilherme 0 Dec  7 12:00 file.txt
+
+  $ chmod u-wx,g-w,o-rwx file.txt
+  $ ls -l file.txt
+  -r--r----- 1 guilherme guilherme 0 Dec  7 12:00 file.txt
+

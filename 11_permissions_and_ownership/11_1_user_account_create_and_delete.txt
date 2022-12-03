@@ -1,0 +1,81 @@
+---------------------------------------
+ Create and delete local user accounts
+---------------------------------------
+
+  ┌────────────────────────┬────────────────────────┐
+  │ Configuration Settings │ Configuration File     │
+  ├────────────────────────┼────────────────────────┤
+  ├────────────────────────┼────────────────────────┤
+  │ Account name           │ /etc/passwd            │
+  │ User ID                │                        │
+  │ Primary group ID       │                        │
+  │ Home directory         │                        │
+  │ Default shell          │                        │
+  ├────────────────────────┼────────────────────────┤
+  │ Encoded password       │ /etc/shadow            │
+  │ Account aging info     │                        │
+  ├────────────────────────┼────────────────────────┤
+  │ Starting user ID       │ /etc/login.defs        │
+  │ Starting group ID      │                        │
+  │ Password encoding type │                        │
+  ├────────────────────────┼────────────────────────┤
+  │ Default shell          │ /etc/default/useradd   │
+  │ Default home directory │                        │
+  └────────────────────────┴────────────────────────┘
+
+The useradd(8) command creates new users.
+
+  $ sudo useradd <user>
+
+  $ sudo useradd bob
+  $ cat /etc/passwd | grep bob
+  bob:x:1001:1001::/home/bob:/bin/sh
+             ^^^^
+             group
+
+  $ cat /etc/group | grep 1001
+  bob:x:1001:
+
+  $ sudo cat /etc/shadow | grep bob
+  bob:!:19334:0:99999:7:::
+      ^
+      '!' means the user has no password
+
+
+The passwd(1) command sets a password for a user.
+
+  $ sudo passwd <user>
+
+  $ sudo passwd bob
+  New password:
+  Retype new password:
+  passwd: password updated successfully
+
+  $ sudo cat /etc/shadow | grep bob
+  bob:$6$iR6MItWTCd9p53Yk$1kAG7hiAPkW5j8iNmgST.rNqCmaXzEYS2ZxBS7S4NQrIi0.FMpbACWOvejwVmyoWkq93k9INxKxg5BHb1l770/:19334:0:99999:7:::
+      ^
+      there's no '!', thus the user has password
+
+
+The chage(1) command shows user information
+
+  $ sudo chage -l <user>
+
+  $ sudo chage -l bob
+  Last password change                                    : Dec 08, 2022
+  Password expires                                        : never
+  Password inactive                                       : never
+  Account expires                                         : never
+  Minimum number of days between password change          : 0
+  Maximum number of days between password change          : 99999
+  Number of days of warning before password expires       : 7
+
+
+The userdel(8) command deletes a user.
+
+  $ sudo userdel -r <user>
+
+  $ sudo userdel -r bob
+  $ cat /etc/passwd | grep bob
+  $
+

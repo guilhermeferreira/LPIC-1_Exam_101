@@ -1,0 +1,113 @@
+There are 3 major types of extended attributes
+- Extended Security Attributes (SELinux)
+- Extended System Attributes (ACL)
+- Extended User Attributes(CAPabilities).
+
+---------------------------------------
+  Extended Security Attributes
+---------------------------------------
+
+It stores security context, which provides Mandatory Access Control (MAC).
+
+  system_u:object_r:exec_t:s0
+  ^^^^^^^^ ^^^^^^^^ ^^^^^^ ^^^
+  user    :role    :type  :level
+  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        SELinux Context
+
+The chcon(1) command changes SELinux context.
+
+  $ chcon <context> <file>
+  $ chcon -u <user> -r <role> -t <type> -l <level> <file>
+
+The ls(1) command with -Z option displays the SELinux attributes.
+
+  $ ls -Z <file>
+
+  $ ls -Z regfile
+  -rw-rw-r--. 1 admin admin unconfined_u:object_r:user_tmp_t:s0 7 Dec  3 13:09 regfile
+
+The semanage(8) command shows SELinux mappings.
+
+  $ apt install policycoreutils-python-utils
+  $ semanage port -l
+  $ semanage login -l
+
+The netstat(8) command with -lZ option shows labels
+
+  $ netstat -lZ
+
+---------------------------------------
+  Extended System Attributes
+---------------------------------------
+
+It stores Access Control Lists (ACL), which provides an additional layer of
+Discretionary Access Control (DAC) for Linux. For example
+- Permissions for multiple users and groups on a file, not just the owner.
+- Inheritance for user/group permissions.
+- Backing up and restoring permissions.
+
+The setfacl(1) command sets extended system attributes.
+
+  $ setfacl -m user:<user>:<permission> <file>
+  $ setfacl -m group:<group>:<permission> <file>
+
+  $ ls -l regfile
+  -rw-rw-r--. 1 admin admin 7 Dec  3 13:09 regfile
+            ^
+          no ACL
+
+  $ setfacl -m user:root:rw regfile
+  $ setfacl -m group:wheel:r regfile
+
+  $ ls -l regfile 
+  -rw-rw-r--+ 1 admin admin 7 Dec  3 13:09 regfile
+            ^
+           ACL
+
+The getfacl(1) command display extended system attributes.
+
+  $ getfacl -t <file>
+
+  $ getfacl -t regfile
+  # file: regfile
+  USER   admin     rw-     
+  user   root      rw-     
+  GROUP  admin     rw-     
+  group  wheel     r--
+  mask             rw-     
+  other            r--     
+
+---------------------------------------
+  Extended User Attributes
+---------------------------------------
+
+Store additional flags (attributes) that provide capabilities shuch as
+
+ ATTR  DESCRIPTION
+  a    Set a file to append only.
+  c    Auto compress/decompress a file.
+  i    Make a file immutable (cannot be written, renamed or deleted).
+  d    Auto-backup on single files, so that if the file is delete, its data
+       can be restrored.
+
+The chattr(1) command adds/removes user attributes to/from a file.
+
+  $ sudo chattr +<ATTR> <file>
+  $ sudo chattr -<ATTR> <file>
+
+  $ sudo chattr +a regfile
+  $ echo "append is allowed" >> regfile
+  $ echo "overwrite is not allowed" > regfile
+  bash: regfile: Operation not permitted
+
+  $ sudo chattr -a regfile 
+  $ echo "overwrite is allowed" > regfile
+
+The lsattr(1) command lists a file's extended user attributes.
+
+  $ lsattr <file>
+
+  $ lsattr regfile
+  -----a-------------- regfile
+

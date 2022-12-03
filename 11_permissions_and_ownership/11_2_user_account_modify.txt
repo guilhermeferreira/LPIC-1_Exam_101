@@ -1,0 +1,80 @@
+---------------------------------------
+ Modify local user accounts
+---------------------------------------
+
+The usermod(8) command modifies a user account after it has been created.
+
+  $ sudo usermod [opstion] <user>
+
+  ───────────────────────────────────────────────────────────────────────────
+  Option                  Functionality
+  ───────────────────────────────────────────────────────────────────────────
+  -d, --home <homedir>    Set user's home directory
+  -u <user id>            Change primary user ID
+  -g <groupd id>          Change primary group ID
+  -G <groups>             Specify supplemental groups
+  -a                      Combined with -G, appends users to group list
+  -l <login name>         Change user's login name
+  -L                      Lock account
+  -U                      Unlock account
+  -m                      Move home directory
+  -s <shell>              Set shell (e.g. /bin/bash)
+  ───────────────────────────────────────────────────────────────────────────
+
+Add a user named "sally".
+
+  $ sudo useradd sally
+  $ sudo passwd sally
+  New password:
+  Retype new password:
+  passwd: password updated successfully
+  $ sudo cat /etc/shadow | grep sally
+  sally:$6$gqAR7KQXkqFswcTx$AYS0WSEKrYbLDQFkW8GAdcBk2f3GgnvldIKP5a2iWI2S7Zur6q4.TxTBIE7VDvmPT54iPmkm6Aes8cf6fNjkC1:19335:0:99999:7:::
+
+Add the "sally" user to the "audio" group.
+
+  $ cat /etc/group | grep audio
+  audio:x:29:guilherme
+  $ sudo usermod -a -G audio sally
+  $ cat /etc/group | grep audio
+  audio:x:29:guilherme,sally
+
+Lock the user's password.
+
+  $ sudo usermod -L sally
+  $ sudo cat /etc/shadow | grep sally
+  sally:!$6$gqAR7KQXkqFswcTx$AYS0WSEKrYbLDQFkW8GAdcBk2f3GgnvldIKP5a2iWI2S7Zur6q4.TxTBIE7VDvmPT54iPmkm6Aes8cf6fNjkC1:19335:0:99999:7:::
+        ^
+        '!' means the password is locked, but the user still can login if it has SSH keys
+
+Unlock the user's password.
+
+  $ sudo usermod -U sally
+  $ sudo cat /etc/shadow | grep sally
+  sally:$6$gqAR7KQXkqFswcTx$AYS0WSEKrYbLDQFkW8GAdcBk2f3GgnvldIKP5a2iWI2S7Zur6q4.TxTBIE7VDvmPT54iPmkm6Aes8cf6fNjkC1:19335:0:99999:7:::
+        ^
+        no '!'
+
+Block the user's account.
+
+  $ sudo usermod -s /sbin/nologin sally
+  $ su - sally
+  Password:
+  su: warning: cannot change directory to /home/sally: No such file or directory
+  This account is currently not available.
+  $ cat /etc/passwd | grep sally
+  sally:x:1001:1001::/home/sally:/sbin/nologin
+                                 ^^^^^^^^^^^^^
+
+  $ sudo usermod -s /bin/bash sally
+  $ su - sally
+  Password:
+  Welcome to Ubuntu 20.04.4 LTS (GNU/Linux 4.4.0-19041-Microsoft x86_64)
+  ...
+  This message is shown once a day. To disable it please create the
+  /home/sally/.hushlogin file.
+  sally@TUD259281:~$
+  $ cat /etc/passwd | grep sally
+  sally:x:1001:1001::/home/sally:/bin/sh
+                                 ^^^^^^^
+

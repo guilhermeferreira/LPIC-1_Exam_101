@@ -1,0 +1,44 @@
+Attributes are metadata, which is data that describes other data.
+Example of metadata are
+- File name
+- File Size
+- Permissions
+- Ownership
+- Last access time
+
+The ls command lists the file's attributes.
+
+  $ ls -l regfile
+  -rwxrw-r--. 1 user group 255 Dec 14 09:39 regfile
+  ▲^^^▲▲▲^^^▲ ▲ ^^^^ ^^^^^ ^^^ ^^^^^^^^^^^^ ^^^^^^^
+  │ │  │  │ │ │   │    │    │       │          │
+  │ │  │  │ │ │   │    │    │       │          └── File name
+  │ │  │  │ │ │   │    │    │       └───────────── Last access time
+  │ │  │  │ │ │   │    │    └───────────────────── File size (in bytes)
+  │ │  │  │ │ │   │    └────────────────────────── Group Owner Name
+  │ │  │  │ │ │   └─────────────────────────────── User Owner Name
+  │ │  │  │ │ └─────────────────────────────────── Hardlink count
+  │ │  │  │ └───────────────────────────────────── '.' is no ACL '+' is with ACL
+  │ │  │  └─────────────────────────────────────── Other's Permissions 
+  │ │  └────────────────────────────────────────── Group Owner Permissions
+  │ └───────────────────────────────────────────── User Owner Permissions
+  └─────────────────────────────────────────────── File Type
+
+The file command shows the file's type.
+
+  $ file regfile
+  regfile: ASCII text
+
+The stat command shows the file's statistics.
+
+  $ stat regfile
+     File: regfile
+     Size: 7            Blocks: 8          IO Block: 4096   regular file
+   Device: fd00h/64768d Inode: 2275343     Links: 1
+   Access: (0664/-rw-rw-r--)  Uid: ( 1000/   admin)   Gid: ( 1000/   admin)
+   Context: unconfined_u:object_r:user_tmp_t:s0
+   Access: 2022-12-03 13:09:30.356157096 +0100
+   Modify: 2022-12-03 13:09:24.155369007 +0100
+   Change: 2022-12-03 13:09:24.155369007 +0100
+    Birth: 2022-12-03 10:16:28.174325325 +0100
+

@@ -1,0 +1,64 @@
+---------------------------------------
+ Special directory bits: SGUI and Stiky
+---------------------------------------
+
+The SGID bit set on a directory provides group ownership inheritance for files
+created inside that directory.
+
+Without SGID, the group is the same as the one creating the file.
+
+  $ mkdir noinherit
+  $ chmod 0777 noinherit
+  $ ls -ld noinherit
+  drwxrwxrwx 2 root root 4096 Dec  8 11:58 noinherit
+        ^
+        SGID disabled
+
+  $ su - bob
+  $ touch noinherit/file
+  $ ls -l noinherit/file
+  -rw-r--r-- 1 bob bob 0 Dec  8 12:06 noinherit/file
+                   ^^^
+                   user's group
+
+With SGID, we inherit the group owner.
+
+  $ mkdir inherit
+  $ sudo groupadd newgroup
+  $ chown :newgroup inherit
+  $ chmod 2777 inherit
+  $ ls -ld inherit
+  drwxrwsrwx 2 root newgroup 4096 Dec  8 11:55 inherit
+        ^
+        SGID enabled
+
+  $ su - bob
+  $ touch inherit/file
+  $ ls -l inherit/file
+  -rw-r--r-- 1 bob newgroup 0 Dec  8 12:07 inherit/file
+                   ^^^^^^^^
+                   directory's group
+
+---------------------------------------
+
+The purpose of Stiky (t) bit on a directory is to prevent users from deleting
+or moving each other's files.
+
+The /tmp directory has the stiky bit set. Thus, one user can't delete a file
+created by another user.
+
+  $ ls -ld /tmp/
+  drwxrwxrwt 1 root root 4096 Dec  8 02:58 /tmp/
+           ^
+           Stiky bit
+
+  $ sudo useradd bob
+  $ su - bob
+  $ touch /tmp/file
+  $ chmod 777 /tmp/file
+  $ exit
+  $ sudo useradd alice
+  $ su - alice
+  $ rm /tmp/file
+  rm: cannot remove '/tmp/file': Operation not permitted
+

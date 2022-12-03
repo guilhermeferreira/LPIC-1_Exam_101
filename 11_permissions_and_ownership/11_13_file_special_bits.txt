@@ -1,0 +1,42 @@
+---------------------------------------
+ Special file bits: SUID and SGUI
+---------------------------------------
+
+The SUID (set user ID) bit escalates the execution permission to the file's
+user owner.
+
+  $ ls -l /usr/bin/su
+  -rwsr-xr-x 1 root root 67816 Feb  7  2022 /usr/bin/su
+     ^         ^^^^
+     SUID bit (s) instead of execute (x) means that any user can execute the
+     file as if it was the file's user owner (root)
+
+  -rwx------ x means execute with current user
+  -rws------ lowercase s means SUID and execute are set
+  -rwS------ uppercase S means SUID is set, but not execute
+
+The chmod command sets the SUID
+
+  $ chmod 4755 <file>
+  $ chmod u+s <file>
+
+---------------------------------------
+
+The SGUI (set group ID) bit escalates the execution permission to the file's
+group owner.
+
+  $ ls -l /usr/bin/screen
+  -rwxr-sr-x 1 root screen 474280 Feb 23  2021 /usr/bin/screen
+        ^           ^^^^^^
+        SGID bit (s) instead of execute (x) means that any user can execute the
+        file as if it was the file's group owner (screen)
+
+  ----rwx--- x means execute with current group
+  ----rws--- lowercase s means SGID and execute are set
+  ----rwS--- uppercase S means SGID is set, but not execute
+
+The chmod command sets the SGID
+
+  $ chmod 2755 <file>
+  $ chmod g+s <file>
+
