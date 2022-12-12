@@ -1,0 +1,55 @@
+---------------------------------------
+ Archiving files with tar
+---------------------------------------
+
+Archiving a directory without compression and preserving metadata.
+
+  $ tar --xattrs -cvpf <output> <input>
+  $ tar --xattrs -cvpf etc.tar /etc
+
+Options to preserve metadata:
+
+  --xattrs   preserves extended attributes such as SELinux and ACL.
+  -p         preserves permissions.
+
+To see the files inside the tar, use the -tf option:
+
+  $ tar -tf etc.tar
+
+---------------------------------------
+
+Using Gzip format:
+
+  $ tar --xattrs --gzip -cvpf etc.tar.gz /etc
+
+---------------------------------------
+
+Using Bzip2 format:
+
+  $ tar --xattrs --bzip2 -cvpf etc.tar.bz2 /etc
+
+---------------------------------------
+
+Using XZ format:
+
+  $ tar --xattrs --xz -cvpf etc.tar.xz /etc
+
+---------------------------------------
+
+Comparing compression algorithms:
+
+  ┌─────────────┬──────────┬───────────────────┐
+  │             │          │       Size        │
+  │ Compression │ Time     ├─────────┬─────────┤
+  │             │          │  Bytes  │ Units   │
+  ├─────────────┼──────────┼─────────┼─────────┤
+  ├─────────────┼──────────┼─────────┼─────────┤
+  │ tar         │ 0m0.199s │ 4864000 │ 4.7MiB  │
+  ├─────────────┼──────────┼─────────┼─────────┤
+  │ gzip        │ 0m0.560s │ 598462  │ 586KiB  │
+  ├─────────────┼──────────┼─────────┼─────────┤
+  │ bzip2       │ 0m0.563s │ 545974  │ 534KiB  │
+  ├─────────────┼──────────┼─────────┼─────────┤
+  │ xz          │ 0m0.882s │ 476088  │ 465KiB  │
+  └─────────────┴──────────┴─────────┴─────────┘
+

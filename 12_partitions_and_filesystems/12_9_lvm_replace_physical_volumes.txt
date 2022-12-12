@@ -1,0 +1,124 @@
+---------------------------------------
+ Replace a physical volume
+---------------------------------------
+
+There are two physical volumes, but only /dev/sdb1 belongs to the volume group.
+
+  $ sudo pvs
+    PV         VG    Fmt  Attr PSize   PFree 
+    /dev/sdb1  vgsdb lvm2 a--   <4.00g <3.51g
+    /dev/sdb2        lvm2 ---   <4.00g <4.00g
+
+Resize the volume group to fit 100% of the physical volume.
+
+  $ sudo lvresize -r -l 100%VG /dev/vgsdb/lvsdb
+  fsck from util-linux 2.32.1
+  /dev/mapper/vgsdb-lvsdb: clean, 11/128016 files, 26684/512000 blocks
+    Size of logical volume vgsdb/lvsdb changed from 500.00 MiB (125 extents) to <4.00 GiB (1023 extents).
+    Logical volume vgsdb/lvsdb successfully resized.
+  resize2fs 1.45.6 (20-Mar-2020)
+  Resizing the filesystem on /dev/mapper/vgsdb-lvsdb to 4190208 (1k) blocks.
+  The filesystem on /dev/mapper/vgsdb-lvsdb is now 4190208 (1k) blocks long.
+
+Check that the logical volume occupies all the volume group.
+
+  $ sudo lvs
+    LV    VG    Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+    lvsdb vgsdb -wi-a-----  <4.00g
+
+---------------------------------------
+
+Put data into the logical volume.
+
+  $ sudo mount /dev/vgsdb/lvsdb /media/lvsdb/
+  $ sudo touch /media/lvsdb/newfile.txt
+  $ sudo chmod 666 /media/lvsdb/newfile.txt
+  $ echo {1..100} > /media/lvsdb/newfile.txt
+  $ sudo umount /dev/vgsdb/lvsdb
+
+---------------------------------------
+
+Add another physical volume to the volume group.
+
+  $ sudo vgextend vgsdb /dev/sdb2
+     Volume group "vgsdb" successfully extended
+
+There are two physical volumes. Both belong to the volume group. The /dev/sdb1
+has no free space, whereas /dev/sdb2 is empty.
+
+  $ sudo pvs
+    PV         VG    Fmt  Attr PSize   PFree 
+    /dev/sdb1  vgsdb lvm2 a--   <4.00g     0
+    /dev/sdb2  vgsdb lvm2 a--   <4.00g <4.00g
+
+The volume group has two  PVs.
+
+  $ sudo vgs
+    VG    #PV #LV #SN Attr   VSize   VFree
+    vgsdb   2   1   0 wz--n-   7.99g <4.00g
+            ^
+The logical volume still has the size of one PV.
+
+  $ sudo lvs
+    LV    VG    Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+    lvsdb vgsdb -wi-a-----  <4.00g
+
+---------------------------------------
+
+Move the data from one physical volume to another.
+
+  $ sudo pvmove /dev/sdb1 /dev/sdb2
+    /dev/sdb1: Moved: 2.44%
+    /dev/sdb1: Moved: 100.00%
+
+The free size cahnged. Now, /dev/sdb1 is empty.
+
+  $ sudo pvs
+    PV         VG    Fmt  Attr PSize   PFree 
+    /dev/sdb1  vgsdb lvm2 a--   <4.00g <4.00g
+    /dev/sdb2  vgsdb lvm2 a--   <4.00g     0
+
+  $ sudo lvs
+    LV    VG    Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+    lvsdb vgsdb -wi-a-----  <4.00g
+
+  $ sudo vgs
+    VG    #PV #LV #SN Attr   VSize   VFree 
+    vgsdb   2   1   0 wz--n-   7.99g <4.00g
+
+---------------------------------------
+
+Remove one physical volume.
+
+  $ sudo vgreduce vgsdb /dev/sdb1
+    Removed "/dev/sdb1" from volume group "vgsdb"
+
+There are two physical volumes, but only /dev/sdb2 belongs to the volume group.
+
+  $ sudo pvs
+    PV         VG    Fmt  Attr PSize   PFree
+    /dev/sdb1        lvm2 ---    4.00g 4.00g
+    /dev/sdb2  vgsdb lvm2 a--   <4.00g    0
+
+The PV count decreased from 2 to 1.
+
+  $ sudo vgs
+    VG    #PV #LV #SN Attr   VSize   VFree
+    vgsdb   1   1   0 wz--n-  <4.00g    0
+            ^
+
+The logical volume has the same size.
+
+  $ sudo lvs
+    LV    VG    Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+    lvsdb vgsdb -wi-a-----  <4.00g
+
+---------------------------------------
+
+The data move from one physical volume to another.
+
+  $ sudo mount /dev/vgsdb/lvsdb /media/lvsdb/
+  $ cat /media/lvsdb/newfile.txt
+  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100
+  $ sudo umount /dev/vgsdb/lvsdb
+

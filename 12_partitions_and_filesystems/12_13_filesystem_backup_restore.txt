@@ -1,0 +1,32 @@
+---------------------------------------
+ Backup EXT filesystem
+---------------------------------------
+
+1. Unmount the filesystem.
+
+  $ sudo umount /dev/vgsdb/lvsdb
+
+2. Check the filesystem for errors with the e2fsck command.
+
+  $ sudo e2fsck /dev/vgsdb/lvsdb
+
+3. Backup the filesystem with the dump command.
+
+  $ sudo dump -0uf /home/lvsdb.dump /dev/vgsdb/lvsdb
+
+---------------------------------------
+ Restore EXT filesystem
+---------------------------------------
+
+1. Mount the filesystem
+
+  $ sudo mount /dev/vgsdb/lvsdb /media/restore
+
+2. Go to the directory
+
+  $ cd /media/restore
+
+3. Restore the filesystem with the restore command.
+
+  $ sudo restore -rf /home/lvsdb.dump
+

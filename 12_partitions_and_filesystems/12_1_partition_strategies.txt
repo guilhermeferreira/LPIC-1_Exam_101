@@ -1,0 +1,39 @@
+---------------------------------------
+  Hard-drive partitioning strategies
+---------------------------------------
+
+- BIOS partitions.
+  - Recognized by the BIOS (Basic Input/Output System) boot firmware.
+  - Store partition tables in the MBR (Master Boot Record).
+  - Managed by fdisk(8) tool.
+  - Legacy systems.
+  - Primary partition is bootable by the BIOS (i.e. BIOS can only boot an
+    operating system stored in a primary partition).
+  - Limited to 4 (four) primary partitions to work around this limitation, one
+    primary partition becomes an extended partition.
+  - Extended partition contains logical drives (i.e. software partitions).
+  - Cannot boot from a logica drive.
+  - Primary/extended partitions have names from 1 to 4.
+  - Logical partitions have names from 5 to 11.
+  - Acessible size of 2 TB (terabyte)
+
+- UEFI partitions.
+  - Recognized by UEFI (Unified Extensible Firmware Interface) boot firmware.
+  - Store partition tables in the GPT (GUID Partition Table).
+  - Managed by the gdisk(8) tool.
+  - Modern systems.
+  - No four-partition limit.
+  - No need for logical drives.
+  - Older systems will not recognized GUID partitions.
+  - Partitions must be contiguous.
+  - Partitions cannot be resized.
+  - Acessible size of 18 EB (exabyte).
+
+- Logical Volume Management (LVM).
+  - Abstraction layer above real partitions or disks.
+  - Combine partitions or disks.
+  - Can resize or move drives.
+  - Create redundant arrays.
+  - Span volumes across multiple disks.
+  - Can encrypt drives.
+

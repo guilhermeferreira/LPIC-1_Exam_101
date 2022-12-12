@@ -1,0 +1,78 @@
+---------------------------------------
+ Extend existing logical volumes
+---------------------------------------
+
+There're three steps to increase the volume size.
+  1. Resize the volume group by adding physical volumes to it.
+  2. Resize the logical volume.
+  3. Resize the file system.
+
+---------------------------------------
+
+To increase the size, we can mount the volume.
+
+  $ sudo mount /dev/vgsdb/lvsdb /media/lvsdb/
+
+---------------------------------------
+
+First, resize the volume group. The vgextend(8) command adds physical volumes
+to a volume group:
+
+  $ sudo vgextend <volume group> <physical volume>
+
+  $ sudo vgs
+    VG    #PV #LV #SN Attr   VSize   VFree
+    vgsdb   1   1   0 wz--n-  <4.00g <3.51g
+                              ^^^^^^
+
+  $ sudo vgextend vgsdb /dev/sdb2
+
+  $ sudo vgs
+    VG    #PV #LV #SN Attr   VSize   VFree
+    vgsdb   2   1   0 wz--n- 7.99g   7.50g
+                             ^^^^^
+
+---------------------------------------
+
+Second, resize the logical volume. The lvresize(8) command resizes a logical
+volume:
+
+  $ sudo lvresize -l <new size> <logical volume>
+
+  $ sudo lvs
+    LV    VG    Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+    lvsdb vgsdb -wi-a----- 500.00m
+                           ^^^^^^^
+
+  $ sudo lvresize -l 100%FREE /dev/vgsdb/lvsdb
+    Size of logical volume vgsdb/lvsdb changed from 500.00 MiB (125 extents) to 7.50 GiB (1921 extents).
+    Logical volume vgsdb/lvsdb successfully resized.
+
+  $ sudo lvs
+    LV    VG    Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+    lvsdb vgsdb -wi-a----- 7.50g
+                           ^^^^^
+
+---------------------------------------
+
+Third, resize the file system. The resize2fs(8) resizes the ext2/ext3/ext4
+file systems.
+
+  $ sudo resize2fs <device>
+
+  $ df -h
+  Filesystem               Size  Used Avail Use% Mounted on
+  /dev/mapper/vgsdb-lvsdb  474M   14K  445M   1% /media/lvsdb
+                           ^^^^
+
+  $ sudo resize2fs /dev/vgsdb/lvsdb
+  resize2fs 1.45.6 (20-Mar-2020)
+  Filesystem at /dev/vgsdb/lvsdb is mounted on /media/lvsdb; on-line resizing required
+  old_desc_blocks = 4, new_desc_blocks = 61
+  The filesystem on /dev/vgsdb/lvsdb is now 7868416 (1k) blocks long.
+
+  $ df -h
+  Filesystem               Size  Used Avail Use% Mounted on
+  /dev/mapper/vgsdb-lvsdb  7.3G   14K  7.0G   1% /media/lvsdb
+                           ^^^^
+

@@ -1,0 +1,162 @@
+---------------------------------------
+ Resize partitions without losing data
+---------------------------------------
+
+1. Take note of old partition boundaries.
+
+2. Delete the old partition.
+
+3. Create a new larger partition.
+
+4. Resize the filesystem.
+
+
+---------------------------------------
+ Take note of old partition boundaries
+---------------------------------------
+
+Mount the partition.
+
+  $ lsblk /dev/sdb
+  NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+  sdb      8:16   0    8G  0 disk 
+  └─sdb1   8:17   0  500M  0 part 
+
+  $ mkdir /media/sdb1
+  $ sudo mount /dev/sdb1 /media/sdb1
+  $ lsblk /dev/sdb
+  NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+  sdb      8:16   0    8G  0 disk 
+  └─sdb1   8:17   0  500M  0 part /media/sdb1
+                                  ^^^^^^^^^^^
+
+Take note of the partition boundaries
+
+  $ sudo gdisk /dev/sdb
+  GPT fdisk (gdisk) version 1.0.3
+  Partition table scan:
+    MBR: protective
+    BSD: not present
+    APM: not present
+    GPT: present
+  Found valid GPT with protective MBR; using GPT.
+  Command (? for help): p
+  Disk /dev/sdb: 16777216 sectors, 8.0 GiB
+  Model: VBOX HARDDISK   
+  Sector size (logical/physical): 512/512 bytes
+  Disk identifier (GUID): C6B0E4A7-D847-43AD-BA39-49AAFD2189D7
+  Partition table holds up to 128 entries
+  Main partition table begins at sector 2 and ends at sector 33
+  First usable sector is 34, last usable sector is 16777182
+  Partitions will be aligned on 2048-sector boundaries
+  Total free space is 15753149 sectors (7.5 GiB)
+  Number  Start (sector)    End (sector)  Size       Code  Name
+       1           2048          1026047  500.0 MiB  8300  Linux filesystem
+          ^^^^^^^^^^^^^     ^^^^^^^^^^^^
+          keep start        change end
+
+
+---------------------------------------
+ Delete the old partition
+---------------------------------------
+
+Delete (d) the partition. Deleting the partition does not delete the data. We
+modify just the partition table.
+
+  Command (? for help): d
+  Using 1
+
+Print (p) to check if the partition was deleted.
+
+  Command (? for help): p
+  Disk /dev/sdb: 16777216 sectors, 8.0 GiB
+  Model: VBOX HARDDISK   
+  Sector size (logical/physical): 512/512 bytes
+  Disk identifier (GUID): C6B0E4A7-D847-43AD-BA39-49AAFD2189D7
+  Partition table holds up to 128 entries
+  Main partition table begins at sector 2 and ends at sector 33
+  First usable sector is 34, last usable sector is 16777182
+  Partitions will be aligned on 2048-sector boundaries
+  Total free space is 16777149 sectors (8.0 GiB)
+  Number  Start (sector)    End (sector)  Size       Code  Name
+
+
+---------------------------------------
+ Create a new larger partition
+---------------------------------------
+
+Create a new (n) partition with the same start sector.
+
+  Command (? for help): n
+  Partition number (1-128, default 1): 
+  First sector (34-16777182, default = 2048) or {+-}size{KMGTP}: 2048
+  Last sector (2048-16777182, default = 16777182) or {+-}size{KMGTP}: 
+  Current type is 'Linux filesystem'
+  Hex code or GUID (L to show codes, Enter = 8300): 
+  Changed type of partition to 'Linux filesystem'
+
+Print (p) the newly created partition.
+
+  Command (? for help): p
+  Disk /dev/sdb: 16777216 sectors, 8.0 GiB
+  Model: VBOX HARDDISK   
+  Sector size (logical/physical): 512/512 bytes
+  Disk identifier (GUID): C6B0E4A7-D847-43AD-BA39-49AAFD2189D7
+  Partition table holds up to 128 entries
+  Main partition table begins at sector 2 and ends at sector 33
+  First usable sector is 34, last usable sector is 16777182
+  Partitions will be aligned on 2048-sector boundaries
+  Total free space is 2014 sectors (1007.0 KiB)
+  Number  Start (sector)    End (sector)  Size       Code  Name
+       1            2048        16777182  8.0 GiB    8300  Linux filesystem
+                                          ^^^^^^^
+                                          new size
+
+Write (w) the changes.
+
+  Command (? for help): w
+  Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
+  PARTITIONS!!
+  Do you want to proceed? (Y/N): y
+  OK; writing new GUID partition table (GPT) to /dev/sdb.
+  Warning: The kernel is still using the old partition table.
+  The new table will be used at the next reboot or after you
+  run partprobe(8) or kpartx(8)
+  The operation has completed successfully.
+
+Update the kernel with partprobe(8) command.
+
+  $ sudo umount /dev/sdb1
+  $ sudo partprobe
+  $ sudo mount /dev/sdb1 /media/sdb1
+
+
+---------------------------------------
+ Resize the filesystem
+---------------------------------------
+
+Check the filesystem size.
+
+  $ df -h
+  Filesystem           Size  Used Avail Use% Mounted on
+  /dev/sdb1            474M   14K  445M   1% /media/sdb1
+                                   ^^^^
+                                   old size
+
+The resize2fs(8) resizes EXT filesystems, whereas the xfs_growfs(8) resizes XFS
+filesystems.
+
+  $ sudo resize2fs /dev/sdb1
+  resize2fs 1.45.6 (20-Mar-2020)
+  Filesystem at /dev/sdb1 is mounted on /media/sdb1; on-line resizing required
+  old_desc_blocks = 4, new_desc_blocks = 64
+  The filesystem on /dev/sdb1 is now 8387564 (1k) blocks long.
+
+Check the new filesystem's size.
+
+  $ df -h
+  Filesystem           Size  Used Avail Use% Mounted on
+  /dev/sdb1            7.8G   16K  7.5G   1% /media/sdb1
+                                   ^^^^
+                                   new size
+

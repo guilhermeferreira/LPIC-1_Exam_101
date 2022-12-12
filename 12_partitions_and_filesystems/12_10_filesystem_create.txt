@@ -1,0 +1,36 @@
+---------------------------------------
+ Create EXT filesystems
+---------------------------------------
+
+The mkfs(8) command is the standard tool to create filesystems on Linux. It's
+a frontend for other other tools. When no -t option is provided it uses EXT2.
+
+  $ sudo mkfs /dev/vgsdb/lvsdb
+
+---------------------------------------
+
+The lsblk(8) command shows the filesystem with the -f option.
+
+  $ lsblk -f
+  NAME            FSTYPE      LABEL           UUID                                   MOUNTPOINT
+  sdb                                                                                
+  ├─sdb1          LVM2_member                 66zhIV-3wOm-MWXm-MdHh-IMMl-Cywy-UHRtl5 
+  └─sdb2          LVM2_member                 vMjdDl-UT4G-rZE3-G7iX-Ossr-Z120-u2d0Hc 
+    └─vgsdb-lvsdb ext2                        bd02d974-bdf5-4933-b897-3a742b23db70   
+
+---------------------------------------
+
+The tune2fs(8) command add journaling to the filesystem, updating from EXT2
+to EXT3. The only difference between EXT2 and EXT3 is the journaling.
+
+  $ sudo tune2fs -j /dev/vgsdb/lvsdb
+  tune2fs 1.45.6 (20-Mar-2020)
+  Creating journal inode: done
+
+  $ lsblk -f
+  NAME            FSTYPE      LABEL           UUID                                   MOUNTPOINT
+  sdb                                                                                
+  ├─sdb1          LVM2_member                 66zhIV-3wOm-MWXm-MdHh-IMMl-Cywy-UHRtl5 
+  └─sdb2          LVM2_member                 vMjdDl-UT4G-rZE3-G7iX-Ossr-Z120-u2d0Hc 
+    └─vgsdb-lvsdb ext3                        bd02d974-bdf5-4933-b897-3a742b23db70   
+

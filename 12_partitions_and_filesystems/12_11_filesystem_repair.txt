@@ -1,0 +1,22 @@
+---------------------------------------
+ Repair EXT filesystems
+---------------------------------------
+
+The fsck(8) command checks and repair Linux filesystems.
+
+  $ sudo fsck <device with filesystem>
+
+  $ sudo fsck /dev/vgsdb/lvsdb
+  fsck from util-linux 2.32.1
+  e2fsck 1.45.6 (20-Mar-2020)
+  /dev/mapper/vgsdb-lvsdb: clean, 11/262144 files, 34911/1047552 blocks
+
+Options
+
+  -A     Check all file systems
+  -AR    Check all file systems, except root
+  -f     Check file system, even if they are clean
+  -a     Fix safe problems automatically
+  -y     Answer all questions with a yes
+  -n     Do not fix, just display the results
+

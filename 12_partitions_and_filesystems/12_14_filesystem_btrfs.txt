@@ -1,0 +1,10 @@
+
+In traditional filesystems
+
+- Drives are divided up using
+  - Partitions
+  - Logical Volumes
+
+- Partitions/Volumes are formatted with a filesystem
+
+

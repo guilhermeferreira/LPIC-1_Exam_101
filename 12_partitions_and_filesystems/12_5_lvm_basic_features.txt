@@ -1,0 +1,54 @@
+---------------------------------------
+ Logical Volume Management (LVM)
+---------------------------------------
+
+- LVM1 created in 1998.
+- LVM2 released in 2003 with 2.6 kernel.
+
+
+---------------------------------------
+ Terminology
+---------------------------------------
+
+  ┌─────────────────┬─────────────┬─────────────────────────────────────────┐
+  │ Units           │ Tools       │ Description                             │
+  ├─────────────────┼─────────────┼─────────────────────────────────────────┤
+  ├─────────────────┼─────────────┼─────────────────────────────────────────┤
+  │ Physical Volume │ pvcreate    │ physical disk space, like a disk or a   │
+  │                 │ pvdisplay   │ partition                               │
+  │                 │ pvscan      │                                         │
+  │                 │ pvmove      │                                         │
+  │                 │             │                                         │
+  ├─────────────────┼─────────────┼─────────────────────────────────────────┤
+  │ Volume Group    │ vgcreate    │ abstraction of a disk and is the disk   │
+  │                 │ vgremove    │ space used to create a logical volume   │
+  │                 │ vgdisplay   │                                         │
+  │                 │ vgextend    │                                         │
+  │                 │ vgreduce    │                                         │
+  ├─────────────────┼─────────────┼─────────────────────────────────────────┤
+  │ Logical Volume  │ lvcreate    │ usable space that can be formated       │
+  │                 │ lvdisplay   │                                         │
+  │                 │ lvextend    │                                         │
+  │                 │ lvresize    │                                         │
+  │                 │             │                                         │
+  └─────────────────┴─────────────┴─────────────────────────────────────────┘
+
+
+---------------------------------------
+ LVM2 Features
+---------------------------------------
+
+- LVM2 includes 42 commands and 18 built-in commands.
+- Volumes can be dynamically expanded without unmounting the filesystem.
+- Volumes can be dynamically reduced, but requires unmounting the filesystem.
+- Space from disks can be combined into one volume. A 3GiB in one disk can be
+  combined with 2GiB in another disk to build a 5GiB volume. 
+- Volumes can exceed the size of one single disk.
+- Data can be duplicated up to six times.
+- Redundant copies can be created automatically.
+- Data can be distributed across disks.
+- Logical volumes can be moved between physical disks.
+- Flash disks can act as cache drives for spinning disks.
+- Volumes can be frozen in time for backups.
+- Volumes can be rolled back to a previous state.
+

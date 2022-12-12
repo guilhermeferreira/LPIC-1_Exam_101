@@ -1,0 +1,132 @@
+---------------------------------------
+ Manage LVM volumes and volume groups
+---------------------------------------
+
+Create two partitions on drive.
+
+  $ lsblk /dev/sdb
+  NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+  sdb      8:16   0   8G  0 disk 
+  ├─sdb1   8:17   0   4G  0 part 
+  └─sdb2   8:18   0   4G  0 part
+
+---------------------------------------
+
+The pvcreate(8) command creates a Physical Volume (PV).
+
+  $ sudo pvcreate <partition>
+
+  $ sudo pvcreate /dev/sdb1
+  WARNING: ext4 signature detected on /dev/sdb1 at offset 1080. Wipe it? [y/n]: y
+    Wiping ext4 signature on /dev/sdb1.
+    Physical volume "/dev/sdb1" successfully created.
+
+  $ sudo pvcreate /dev/sdb2
+    Physical volume "/dev/sdb2" successfully created.
+
+The pvs(8) command displays physical volume summary.
+
+  $ sudo pvs
+    PV         VG Fmt  Attr PSize   PFree 
+    /dev/sdb1     lvm2 ---    4.00g  4.00g
+    /dev/sdb2     lvm2 ---   <4.00g <4.00g
+
+---------------------------------------
+
+The vgcreate(8) command creates a Volume Group (VG).
+
+  $ sudo vgcreate <VolumeGroup> <PhysicalVolumes>
+
+  $ sudo vgcreate vgsdb /dev/sdb1 /dev/sdb2
+
+The vgs(8) command displays the volume group summary.
+
+  $ sudo vgs
+    VG    #PV #LV #SN Attr   VSize   VFree
+    vgsdb 2   0   0 wz--n-   7.99g   7.99g
+
+---------------------------------------
+
+The lvcreate(8) creates a Logical Volume (LV).
+
+  $ sudo lvcreate --name <LogicalVolume> --size <size> <VolumeGroup>
+
+  $ sudo lvcreate --name lvsdb --size 500M vgsdb
+    Logical volume "lvsdb" created.
+
+The lvs(8) command displays the logical volume summary.
+
+  $ sudo lvs
+    LV    VG    Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+    lvsdb vgsdb -wi-a----- 500.00m
+
+---------------------------------------
+
+We can refer to the logical volume by
+
+  1. /dev/VolumeGroup/LogicalVolume
+
+     $ ls -l /dev/vgsdb/lvsdb
+     lrwxrwxrwx. 1 root root 7 Dec 18 20:42 /dev/vgsdb/lvsdb -> ../dm-2
+
+  2. /dev/mapper/VolumeGroup-LogicalVolume
+
+     $ ls -l /dev/mapper/vgsdb-lvsdb
+     lrwxrwxrwx. 1 root root 7 Dec 18 20:42 /dev/mapper/vgsdb-lvsdb -> ../dm-2
+
+---------------------------------------
+
+The vgchange(8) command activates the volume group.
+
+  $ sudo vgchange -ay
+    1 logical volume(s) in volume group "vgsdb" now active
+
+---------------------------------------
+
+Now that we have a logical volume, we can format it.
+
+  ┌───────┬─────────────┬───────────────┬──────────────────────────────────────────┐
+  │ Type  │ Max FS Size │ Max File Size │ Notes                                    │
+  ├───────┼─────────────┼───────────────┼──────────────────────────────────────────┤
+  ├───────┼─────────────┼───────────────┼──────────────────────────────────────────┤
+  │ ext2  │  16-32 TiB  │ 2 TiB         │ Not journalized                          │
+  ├───────┼─────────────┼───────────────┼──────────────────────────────────────────┤
+  │ ext3  │  16-32 TiB  │ 2 TiB         │ ext2 with a journal                      │
+  ├───────┼─────────────┼───────────────┼──────────────────────────────────────────┤
+  │ ext4  │  1 EiB      │ 16 TiB        │ Supports solid-state disks, larger disks │
+  ├───────┼─────────────┼───────────────┼──────────────────────────────────────────┤
+  │ XFS   │  8 EiB      │ 8 EiB         │ Cannot be shrunk, supports snapshots     │
+  ├───────┼─────────────┼───────────────┼──────────────────────────────────────────┤
+  │ Btrfs │  16 EiB     │ 16 EiB        │ Automatic defragmentation, copy-on-write │
+  └───────┴─────────────┴───────────────┴──────────────────────────────────────────┘
+
+The mkfs(8) command formats a partition with the given file system.
+
+  $ sudo mkfs -t <type> <LVM partition>
+
+  $ sudo mkfs -t ext4 /dev/vgsdb/lvsdb
+  mke2fs 1.45.6 (20-Mar-2020)
+  Creating filesystem with 512000 1k blocks and 128016 inodes
+  Filesystem UUID: 3a6d3267-4eb4-4b90-929f-cee11ca536a0
+  Superblock backups stored on blocks: 
+      8193, 24577, 40961, 57345, 73729, 204801, 221185, 401409
+  Allocating group tables: done                            
+  Writing inode tables: done                            
+  Creating journal (8192 blocks): done
+  Writing superblocks and filesystem accounting information: done 
+
+The blkid(8) command prints block devices.
+
+  $ sudo blkid
+  /dev/mapper/vgsdb-lvsdb: UUID="3a6d3267-4eb4-4b90-929f-cee11ca536a0" BLOCK_SIZE="1024" TYPE="ext4"
+
+---------------------------------------
+
+Mount the logical volume.
+
+  $ sudo mkdir /media/lvsdb
+  $ sudo mount /dev/vgsdb/lvsdb /media/lvsdb
+  $ df -h
+  Filesystem               Size  Used Avail Use% Mounted on
+  /dev/mapper/vgsdb-lvsdb  474M   14K  445M   1% /media/lvsdb
+
